@@ -23,8 +23,8 @@ public class PlayerStats : CharacterStats
     {
         base.TakeDamage(_damage);
 
-        //PlayerManager.instance.player.DamageEffect();
-        player.DamageEffect();
+        //PlayerManager.instance.player.DamageImpact();
+        //player.DamageImpact();
     }
 
     public override void Die()

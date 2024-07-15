@@ -23,7 +23,7 @@ public class EnemyStats : CharacterStats
     {
         base.TakeDamage(_damage);
 
-        Enemy.DamageEffect();
+        //Enemy.DamageImpact();
     }
 
     public override void Die()

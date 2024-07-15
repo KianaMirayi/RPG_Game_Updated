@@ -52,6 +52,8 @@ public class CharacterStats : MonoBehaviour
 
     public System.Action onHpUpdate;
 
+    protected bool IsDead = false;
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -60,8 +62,6 @@ public class CharacterStats : MonoBehaviour
 
         fx = GetComponent<EntityFX>();
     }
-
-    
 
     // Update is called once per frame
     public virtual void Update()
@@ -73,34 +73,26 @@ public class CharacterStats : MonoBehaviour
         IgniteDamageTimer -= Time.deltaTime;
 
         if (IgniteTimer < 0)  //点燃时间为4秒
-        { 
+        {
             IsIgnited = false;
         }
 
         if (ChillTimer < 0)
-        { 
+        {
             IsChilled = false;
         }
 
         if (ShockTImer < 0)
-        { 
+        {
             IsShocked = false;
         }
-
-        if (IgniteDamageTimer < 0 && IsIgnited)  //当在点燃持续期间时
+        if (IsIgnited)
         {
-            Debug.Log("Take Burning " + IgniteDamage);
-
-            //CurrentHp -= IgniteDamage;
-            DecreaseHpBy(IgniteDamage);
-            if (CurrentHp < 0)
-            {   
-                Die();
-            }
-
-            IgniteDamageTimer = IgniteDamageFrequency;
+            ApplyIgniteDamage();
         }
     }
+
+    
 
     public virtual void DoDamage(CharacterStats _target)  //物理伤害
     {
@@ -118,13 +110,13 @@ public class CharacterStats : MonoBehaviour
             //Debug.Log("Total Critical Damage is" + totalDamage);
         }
 
-
         totalDamage = CheckTargetArmor(_target, totalDamage);
 
-        //_target.TakeDamage(totalDamage);
+        _target.TakeDamage(totalDamage);
         DoMagicDamage(_target);
     }
 
+    #region Elemental or Magical Damage
     public virtual void DoMagicDamage(CharacterStats _target)  //魔法伤害
     {
         int fireDamage = FireDamage.GetValue();
@@ -142,11 +134,17 @@ public class CharacterStats : MonoBehaviour
 
 
         if (Mathf.Max(fireDamage, iceDamage, lightingDamage) <= 0)  //当三种属性的伤害都为0时，直接终止以后的代码避免造成死循环
-        { 
+        {
             return;
 
         }
 
+        TryToApplyElement(_target, fireDamage, iceDamage, lightingDamage);
+
+    }
+
+    private void TryToApplyElement(CharacterStats _target, int fireDamage, int iceDamage, int lightingDamage)
+    {
         bool CanApplyIgnite = fireDamage > iceDamage && fireDamage > lightingDamage;
         bool CanApplyChill = iceDamage > fireDamage && iceDamage > lightingDamage;
         bool CanApplyShock = lightingDamage > fireDamage && lightingDamage > iceDamage;
@@ -158,23 +156,23 @@ public class CharacterStats : MonoBehaviour
             {
                 CanApplyIgnite = true;
                 _target.ApplyElement(CanApplyIgnite, CanApplyChill, CanApplyShock);
-                Debug.Log("Fire Applied");
+                //Debug.Log("Fire Applied");
                 return;
             }
 
             if (Random.value < 0.5f && iceDamage > 0)
-            { 
+            {
                 CanApplyChill = true;
                 _target.ApplyElement(CanApplyIgnite, CanApplyChill, CanApplyShock);
-                Debug.Log("Ice Applied");
+                //Debug.Log("Ice Applied");
                 return;
             }
 
             if (Random.value < 1 && lightingDamage > 0)
-            { 
+            {
                 CanApplyShock = true;
                 _target.ApplyElement(CanApplyIgnite, CanApplyChill, CanApplyShock);
-                Debug.Log("Shock Applied");
+                //Debug.Log("Shock Applied");
                 return;
             }
 
@@ -191,10 +189,7 @@ public class CharacterStats : MonoBehaviour
         }
 
         _target.ApplyElement(CanApplyIgnite, CanApplyChill, CanApplyShock);
-
-
     }
-
 
     public void ApplyElement(bool _ignite, bool _chill, bool _shock)
     {
@@ -249,10 +244,25 @@ public class CharacterStats : MonoBehaviour
                 HitNearestTargetWithThunderStrike();
             }
 
-
         }
+ 
+    }
 
-        
+    private void ApplyIgniteDamage()
+    {
+        if (IgniteDamageTimer < 0)  //当在点燃持续期间时
+        {
+            //Debug.Log("Take Burning " + IgniteDamage);
+
+            //CurrentHp -= IgniteDamage;
+            DecreaseHpBy(IgniteDamage);
+            if (CurrentHp < 0 && !IsDead)
+            {
+                Die();
+            }
+
+            IgniteDamageTimer = IgniteDamageFrequency;
+        }
     }
 
     public void ApplyShock(bool _shock)
@@ -265,6 +275,17 @@ public class CharacterStats : MonoBehaviour
         IsShocked = _shock;
         ShockTImer = ElementDuration;
         fx.ShockFxFor(ElementDuration);
+    }
+
+
+    public void SetUpIgniteDamage(int _ignitedamage)
+    {
+        IgniteDamage = _ignitedamage;
+    }
+
+    public void SetUpShockThunderStrikeDamage(int _thunderStrikeDamage)
+    {
+        ShockDamage = _thunderStrikeDamage;
     }
 
     private void HitNearestTargetWithThunderStrike()
@@ -302,7 +323,10 @@ public class CharacterStats : MonoBehaviour
         //}
     }
 
-    private static int CheckTargetResistance(CharacterStats _target, int totalMagicDamage)  //角色属性抗性
+    #endregion
+
+    #region Calculate Damage
+    private int CheckTargetResistance(CharacterStats _target, int totalMagicDamage)  //角色属性抗性
     {
         totalMagicDamage -= _target.MagicResistance.GetValue() + (_target.Intelligence.GetValue() * 3); //计算总魔法伤害受抗性减免后的总伤害
         totalMagicDamage = Mathf.Clamp(totalMagicDamage, 0, int.MaxValue);
@@ -341,22 +365,17 @@ public class CharacterStats : MonoBehaviour
         return false;
     }
 
-    public void SetUpIgniteDamage(int _ignitedamage)
-    { 
-        IgniteDamage = _ignitedamage;
-    }
-
-    public void SetUpShockThunderStrikeDamage(int _thunderStrikeDamage)
-    {
-        ShockDamage = _thunderStrikeDamage;
-    }
+    
 
     public virtual void TakeDamage(int _damage)  //角色受到伤害
     { 
         //CurrentHp -= _damage;
         DecreaseHpBy(_damage);
 
-        if (CurrentHp <= 0)
+        GetComponent<Entity>().DamageImpact();
+        fx.StartCoroutine("FlashFx");
+
+        if (CurrentHp <= 0 && !IsDead)
         {
             Die();
         }
@@ -374,8 +393,8 @@ public class CharacterStats : MonoBehaviour
     }
 
     public virtual void Die()
-    { 
-        
+    {
+        IsDead = true;
     }
 
     public bool CanCrit()  //计算暴击率
@@ -400,6 +419,9 @@ public class CharacterStats : MonoBehaviour
 
         return Mathf.RoundToInt(critDamage);
     }
+
+    #endregion
+
 
     public int GetMaxHp()  //获取角色最大生命值并之后分配给UI
     {
