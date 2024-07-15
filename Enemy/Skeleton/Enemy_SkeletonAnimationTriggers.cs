@@ -23,7 +23,7 @@ public class Enemy_SkeletonAnimationTriggers : MonoBehaviour
 
                 skeletonEnemy.stats.DoDamage(target);
 
-                //hit.GetComponent<Player>().DamageEffect();
+                //hit.GetComponent<Player>().DamageImpact();
             }
                   
         }

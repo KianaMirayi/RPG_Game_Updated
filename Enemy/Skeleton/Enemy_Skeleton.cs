@@ -32,7 +32,7 @@ public class Enemy_Skeleton : Enemy
 
         skeletonStunnedState = new SkeletonStunnedState(this, stateMachine, "Stunned", this);
 
-        skeletonDeadState = new SkeletonDeadState(this, stateMachine, "Die", this);
+        skeletonDeadState = new SkeletonDeadState(this, stateMachine, "Move", this);
 
     }
 
