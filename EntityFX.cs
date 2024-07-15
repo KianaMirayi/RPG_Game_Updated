@@ -23,6 +23,20 @@ public class EntityFX : MonoBehaviour
         originMat = sr.material;
     }
 
+    public void MakeTransparent(bool _transParent)
+    {
+        if (_transParent)
+        {
+            sr.color = new Color(1, 1, 1, sr.color.a - Time.deltaTime * 1.5f);
+            /*cd.enabled = false;*/  //冻结碰撞器使敌人检测不到
+        }
+        else
+        {
+            sr.color = Color.white;
+            //cd.enabled = true;
+        }
+    }
+
     private IEnumerator FlashFx()
     {
         sr.material = HitMat;

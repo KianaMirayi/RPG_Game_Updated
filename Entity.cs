@@ -136,11 +136,11 @@ public class Entity : MonoBehaviour
 
     }
 
-    public void DamageEffect()
+    public void DamageImpact()
     {
-        fx.StartCoroutine("FlashFx");
+        //fx.StartCoroutine("FlashFx"); //移动至CharacterStats 的TakeDamage
         StartCoroutine("HitKnockBack");
-        Debug.Log(gameObject.name + " was damaged");
+        //Debug.Log(gameObject.name + " was damaged");
 
     }
 
@@ -155,19 +155,7 @@ public class Entity : MonoBehaviour
         IsKnocked = false;
     }
 
-    public void MakeTransparent(bool _transParent)
-    {
-        if (_transParent)
-        {
-            sr.color = new Color(1, 1, 1, sr.color.a - Time.deltaTime * 1.5f);
-            /*cd.enabled = false;*/  //冻结碰撞器使敌人检测不到
-        }
-        else
-        {
-            sr.color = Color.white;
-            //cd.enabled = true;
-        }
-    }
+    
 
     public virtual void Die()
     { 
