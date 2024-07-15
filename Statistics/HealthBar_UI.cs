@@ -38,7 +38,7 @@ public class HealthBar_UI : MonoBehaviour
 
     private void FlipUI()
     {
-        Debug.Log("Entity is Flipped");
+        //Debug.Log("Entity is Flipped");
         HealthBarTransform.Rotate(0, 180, 0);
 
     }
