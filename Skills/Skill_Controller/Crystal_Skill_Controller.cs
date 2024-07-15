@@ -7,6 +7,7 @@ public class Crystal_Skill_Controller : MonoBehaviour
 {
     public Animator CrystalAnim;
     public CircleCollider2D CrystalCd;
+    private Player player;
 
     public float CrystalExitTimer;
 
@@ -65,13 +66,14 @@ public class Crystal_Skill_Controller : MonoBehaviour
         }
     }
 
-    public void SetUpCrystal(float _crystalDuration, bool _canExplode, bool _canMoveToEnemy, float _moveSpeed, Transform _closetEnemy)
+    public void SetUpCrystal(float _crystalDuration, bool _canExplode, bool _canMoveToEnemy, float _moveSpeed, Transform _closetEnemy,Player _player)
     { 
         CrystalExitTimer = _crystalDuration;
         CanExplode = _canExplode;
         CanMoveToEnemy = _canMoveToEnemy;
         MoveSpeed = _crystalDuration;
         ClosetEnemy = _closetEnemy;
+        player = _player;
     }
 
     public void ChooseRandomEnemy()
@@ -101,7 +103,8 @@ public class Crystal_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().DamageEffect();
+                //hit.GetComponent<Enemy>().DamageImpact();由以下语句替代
+                player.stats.DoMagicDamage(hit.GetComponent<CharacterStats>());
             }
         }
 

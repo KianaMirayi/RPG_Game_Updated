@@ -80,7 +80,7 @@ public class BlackHole_Skill_Controller : MonoBehaviour
                 CanGrow = false;
                 CanAttack = false;
                 PlayerManager.instance.player.ExitBlackHoleSkill();
-                PlayerManager.instance.player.MakeTransparent(false);
+                PlayerManager.instance.player.fx.MakeTransparent(false);
                 DestoryHotKey();
 
             }
@@ -95,7 +95,7 @@ public class BlackHole_Skill_Controller : MonoBehaviour
             CanAttack = true;
             DestoryHotKey();
             CanCreatHotKey = false;
-            PlayerManager.instance.player.MakeTransparent(true);
+            PlayerManager.instance.player.fx.MakeTransparent(true);
             
 
         }
@@ -105,7 +105,7 @@ public class BlackHole_Skill_Controller : MonoBehaviour
         if (CanGrow && !CanShrink)
         {
             transform.localScale = UnityEngine.Vector2.Lerp(transform.localScale, new UnityEngine.Vector2(MaxSize, MaxSize), GrowSpeed * Time.deltaTime);
-            PlayerManager.instance.player.MakeTransparent(true);
+            PlayerManager.instance.player.fx.MakeTransparent(true);
 
         }
         if (CanShrink)

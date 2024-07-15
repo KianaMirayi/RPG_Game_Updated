@@ -30,7 +30,7 @@ public class Clone_Skill : Skill
 
         GameObject newClone = Instantiate(ClonePreFab);  //利用预制体中的游戏对象实例化一个newCloned对象，用于实现幻影效果
 
-        newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(clonePosition,CloneDuration,CanAttack, _offSet, FindClosetEnemy(newClone.transform),CanDuplicateClone, PossibilityOfDuplicateClone);  //实例化后的ewCloned对象调用Clone_Skill_Controller脚本中的SetUpClone方法
+        newClone.GetComponent<Clone_Skill_Controller>().SetUpClone(clonePosition,CloneDuration,CanAttack, _offSet, FindClosetEnemy(newClone.transform),CanDuplicateClone, PossibilityOfDuplicateClone,player);  //实例化后的ewCloned对象调用Clone_Skill_Controller脚本中的SetUpClone方法
     }
 
 

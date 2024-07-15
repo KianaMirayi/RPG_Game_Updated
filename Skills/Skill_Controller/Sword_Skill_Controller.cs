@@ -164,7 +164,8 @@ public class Sword_Skill_Controller : MonoBehaviour
             {
                 if (hit.GetComponent<Enemy>() != null)
                 {
-                    hit.GetComponent<Enemy>().DamageEffect();
+                    //hit.GetComponent<Enemy>().DamageImpact();
+                    player.stats.DoDamage(hit.GetComponent<CharacterStats>());
                 }
             }
         }
@@ -185,7 +186,8 @@ public class Sword_Skill_Controller : MonoBehaviour
 
             if (Vector2.Distance(transform.position, EnemyTarget[TargetIndex].position) < 0.1f)  //当剑当前位置与敌人列表索引指向的位置之间的距离小于0.1时
             {
-                EnemyTarget[TargetIndex].GetComponent<Enemy>().DamageEffect();
+                //EnemyTarget[TargetIndex].GetComponent<Enemy>().DamageImpact();
+                EnemyTarget[TargetIndex].GetComponent<Enemy>().stats.DoDamage(transform.GetComponent<CharacterStats>());//这么写对不对啊
                 TargetIndex++;  //敌人列表的索引值自增
                 AmountOfBounce--;  //弹跳次数自减
 
@@ -211,7 +213,8 @@ public class Sword_Skill_Controller : MonoBehaviour
             return;  //当触发该函数时，下面的语句全部不执行
         }
 
-        collision.GetComponent<Enemy>()?.DamageEffect();
+        //collision.GetComponent<Enemy>()?.DamageImpact();
+        collision.GetComponent<Enemy>().stats.DoDamage(collision.GetComponent<CharacterStats>());
 
         if (collision.GetComponent<Enemy>() != null)  //当检测到敌人碰撞器
         {

@@ -87,7 +87,7 @@ public class Crystal_Skill : Skill
 
         Crystal_Skill_Controller crystal_Skill_Controller = CurrentCrystal.GetComponent<Crystal_Skill_Controller>(); 
 
-        crystal_Skill_Controller.SetUpCrystal(CrystalDuration, CanExplode, CanMoveToEnemy, MoveSpeed, FindClosetEnemy(CurrentCrystal.transform));
+        crystal_Skill_Controller.SetUpCrystal(CrystalDuration, CanExplode, CanMoveToEnemy, MoveSpeed, FindClosetEnemy(CurrentCrystal.transform),player);
 
         crystal_Skill_Controller.ChooseRandomEnemy();
     }
@@ -126,7 +126,7 @@ public class Crystal_Skill : Skill
                 CrystalLeft.Remove(crystalToSpawn);  //将最后一个元素移除出列表
 
                 newCrystal.GetComponent<Crystal_Skill_Controller>().SetUpCrystal
-                    (CrystalDuration, CanExplode, CanMoveToEnemy, MoveSpeed, FindClosetEnemy(newCrystal.transform));
+                    (CrystalDuration, CanExplode, CanMoveToEnemy, MoveSpeed, FindClosetEnemy(newCrystal.transform), player);
 
                 if (CrystalLeft.Count <= 0)
                 { 

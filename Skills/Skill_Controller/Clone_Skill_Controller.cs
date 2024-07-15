@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class Clone_Skill_Controller : MonoBehaviour
 {
+
+    private Player player;
     private SpriteRenderer sr;
 
     private Animator animator;
@@ -42,7 +44,7 @@ public class Clone_Skill_Controller : MonoBehaviour
             }
         }
     }
-    public void SetUpClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 _offSet,Transform _closetEnemy, bool _canDuplicateClone, float _possibilityOfDuplicateClone)  //该函数在Clone_Skill中被调用了
+    public void SetUpClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 _offSet,Transform _closetEnemy, bool _canDuplicateClone, float _possibilityOfDuplicateClone,Player _player)  //该函数在Clone_Skill中被调用了
     {
         if (canAttack)
         {
@@ -53,6 +55,7 @@ public class Clone_Skill_Controller : MonoBehaviour
         ClosetEnemy = _closetEnemy;
         CanDuplicateClone = _canDuplicateClone;
         PossibilityToDuplicateClone = _possibilityOfDuplicateClone;
+        player = _player;
 
         FaceClosetTarget();  //用于克隆体幻影攻击敌人时的朝向
         AttackTrigger();
@@ -73,7 +76,8 @@ public class Clone_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                 hit.GetComponent<Enemy>().DamageEffect();
+                //hit.GetComponent<Enemy>().DamageImpact();  //该语句换为下一句
+                player.stats.DoDamage(hit.GetComponent<CharacterStats>());
 
                 if (CanDuplicateClone)
                 {
