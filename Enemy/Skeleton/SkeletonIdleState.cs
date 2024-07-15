@@ -14,19 +14,19 @@ public class SkeletonIdleState : SkeletonGroundState
 
         stateTimer = skeletonEnemy.idleTime; ;
 
-        Debug.Log("Entered Idle State");
+        //Debug.Log("Entered Idle State");
     }
 
 
     public override void Update()
     {
         base.Update();
-        Debug.Log("Skeleton is in idle");
+        //Debug.Log("Skeleton is in idle");
 
         if (stateTimer < 0)
         {
             enemyStateMachine.changeState(skeletonEnemy.skeMoveState);
-            Debug.Log("Switching to Move state");
+            //Debug.Log("Switching to Move state");
         }
         
         
@@ -34,6 +34,6 @@ public class SkeletonIdleState : SkeletonGroundState
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Exiting Idle State");
+        //Debug.Log("Exiting Idle State");
     }
 }

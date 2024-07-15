@@ -12,7 +12,7 @@ public class SkeletonMoveState : SkeletonGroundState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Entered Move State");
+        //Debug.Log("Entered Move State");
     }
 
 
@@ -21,7 +21,7 @@ public class SkeletonMoveState : SkeletonGroundState
         base.Update();
 
         skeletonEnemy.setVelocity(skeletonEnemy.moveSpeed * skeletonEnemy.facingDir, skeletonEnemy.rb.velocity.y);
-        Debug.Log("Skeleton is moving");
+        //Debug.Log("Skeleton is moving");
 
         if (skeletonEnemy.IsWallDetected())
         {
