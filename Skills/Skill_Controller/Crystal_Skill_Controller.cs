@@ -1,6 +1,7 @@
 using Autodesk.Fbx;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Crystal_Skill_Controller : MonoBehaviour
@@ -39,6 +40,11 @@ public class Crystal_Skill_Controller : MonoBehaviour
 
         if (CanGrow)
         {
+            if (ClosetEnemy == null)
+            { 
+                return;
+            }
+
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(1.2f, 1.2f), GrowSpeed * Time.deltaTime);
         }
 
