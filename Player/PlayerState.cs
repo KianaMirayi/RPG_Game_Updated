@@ -36,7 +36,7 @@ public class PlayerState
 
         TriggerCalled = false;
 
-        Debug.Log("I enter" + animBoolName);
+        //Debug.Log("I enter" + animBoolName);
 
     }
 
@@ -50,14 +50,14 @@ public class PlayerState
         player.setVelocity(xInput * player.moveSpeed, rb.velocity.y);
         player.anim.SetFloat("yVelocity", rb.velocity.y);  // 将玩家在纵轴上的向量变化传输给Animator中创建的yVelocity
 
-        Debug.Log("I am in" + animBoolName);
+        //Debug.Log("I am in" + animBoolName);
     }
     
     public virtual void Exit()
     {
         player.anim.SetBool(animBoolName, false);
 
-        Debug.Log("I exit" + animBoolName);
+        //Debug.Log("I exit" + animBoolName);
     }
 
     public virtual void AnimationFinishTrigger()

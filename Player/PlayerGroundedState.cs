@@ -21,7 +21,7 @@ public class PlayerGroundedState : PlayerState
     public override void Update()
     {
         base.Update();
-        Debug.Log("ground detected");
+        //Debug.Log("ground detected");
 
 
         if (Input.GetKeyDown(KeyCode.R))  //´óÕÐºÚ¶´

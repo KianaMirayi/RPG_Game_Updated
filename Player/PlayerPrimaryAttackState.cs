@@ -24,7 +24,7 @@ public class PlayerPrimaryAttackState : PlayerState
             comboCounter = 0;
         }
 
-        Debug.Log(comboCounter);
+        //Debug.Log(comboCounter);
 
         player.anim.SetInteger("comboCounter", comboCounter);
 
@@ -41,7 +41,7 @@ public class PlayerPrimaryAttackState : PlayerState
 
         comboCounter ++;
         lastTimeAttacked = Time.time;
-        Debug.Log(lastTimeAttacked);
+        //Debug.Log(lastTimeAttacked);
     }
 
     public override void Update()
@@ -51,7 +51,7 @@ public class PlayerPrimaryAttackState : PlayerState
         if (TriggerCalled)  // 此时TriggerCalled的值为true
         {
             stateMachine.changeState(player.idleState);
-            Debug.Log("The value of TriggerCalled "+TriggerCalled);
+            //Debug.Log("The value of TriggerCalled "+TriggerCalled);
         }
 
         if (stateTimer < 0)  // 设置stateTimer的目的时让角色停下来进行攻击时有顿挫感
