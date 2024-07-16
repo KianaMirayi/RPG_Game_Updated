@@ -52,7 +52,7 @@ public class CharacterStats : MonoBehaviour
 
     public System.Action onHpUpdate;
 
-    protected bool IsDead = false;
+    public bool IsDead = false;
 
     // Start is called before the first frame update
     public virtual void Start()
