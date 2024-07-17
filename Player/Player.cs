@@ -138,15 +138,21 @@ public class Player : Entity
 
         //Debug.Log(IsWallDetected());
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))  //comment
         {
             SkillManager.SkillInstance.Crystal.CanUseSkill();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("Use Flask");
+            Inventory.Instance.UseFlask();
         }
     }
 
     //public void setVelocity(float xVelocity, float yVelocity)
     //{
-    //    rb.velocity = new Vector2(xVelocity, yVelocity);
+    //    rb.xVelocity = new Vector2(xVelocity, yVelocity);
     //    FlipController(xVelocity);  // 在这里将角色在横轴方向的向量输入作为参数传递给FlipController，在进行判断之后调用相应的翻转函数
     //}
 

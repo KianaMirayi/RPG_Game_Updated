@@ -45,6 +45,9 @@ public class PlayerCounterAttackState : PlayerState
                         
                     }
 
+                    PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
+                    EnemyStats  enemyStats = hit.GetComponent<EnemyStats>();
+                    playerStats.DoDamage(enemyStats);
 
                 }
             }

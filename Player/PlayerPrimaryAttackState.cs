@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerPrimaryAttackState : PlayerState
 {
 
-    public int comboCounter;
+    public int comboCounter { get; private set; }
     public float lastTimeAttacked;
     public int comboableWindow = 2;
 
@@ -28,7 +28,7 @@ public class PlayerPrimaryAttackState : PlayerState
 
         player.anim.SetInteger("comboCounter", comboCounter);
 
-        //rb.velocity = new Vector2(player.AttackMovement[comboCounter].x * player.facingDir, player.AttackMovement[comboCounter].y);
+        //rb.xVelocity = new Vector2(player.AttackMovement[comboCounter].x * player.facingDir, player.AttackMovement[comboCounter].y);
         player.setVelocity(player.AttackMovement[comboCounter].x * player.facingDir, player.AttackMovement[comboCounter].y);
 
         stateTimer = 0.1f;
@@ -58,12 +58,12 @@ public class PlayerPrimaryAttackState : PlayerState
         { 
             player.setVelocity(0,0);  // 在攻击时角色的移动速度  
         }
-        // 或者 rb.velocity = new Vector2(0, rb.velocity.y);
+        // 或者 rb.xVelocity = new Vector2(0, rb.xVelocity.y);
 
         //if (Input.GetKeyDown(KeyCode.Mouse0) && player.dashState.dash && !player.IsGroundDetected())
         //{
             
-        //    player.setVelocity(rb.velocity.x, rb.velocity.y);
+        //    player.setVelocity(rb.xVelocity.x, rb.xVelocity.y);
         //}
     }
 }
