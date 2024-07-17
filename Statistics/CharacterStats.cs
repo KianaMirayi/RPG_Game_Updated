@@ -50,7 +50,7 @@ public class CharacterStats : MonoBehaviour
 
     public int CurrentHp;
 
-    public System.Action onHpUpdate;
+    public System.Action onHpUpdate;  //委托 生命值实时更新
 
     public bool IsDead = false;
 
@@ -92,7 +92,20 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    
+    public virtual void IncreaseStatBy(int _modifier, float _duration, Stats _statToModify)
+    {
+        StartCoroutine(StartModifyCoroutine(_modifier,_duration,_statToModify));
+    }
+
+    private IEnumerator StartModifyCoroutine(int _modifier, float _duration, Stats _statToModify)
+    {
+        _statToModify.AddModifier(_modifier);
+
+        yield return new WaitForSeconds(_duration);
+
+        _statToModify.RemoveModifier(_modifier);
+    }
+
 
     public virtual void DoDamage(CharacterStats _target)  //物理伤害
     {
@@ -101,19 +114,24 @@ public class CharacterStats : MonoBehaviour
             return;
         }
 
-        int totalDamage = Damage.GetValue() + Strength.GetValue();  //总伤害 = 基础伤害 + 力量加点
+        
+      
+            int totalDamage = Damage.GetValue() + Strength.GetValue();  //总伤害 = 基础伤害 + 力量加点
 
-        if (CanCrit())
-        {
-            //Debug.Log("Critical HIT");
-            totalDamage = CalculateCriticalDamage(totalDamage);
-            //Debug.Log("Total Critical Damage is" + totalDamage);
-        }
+            if (CanCrit())
+            {
+                //Debug.Log("Critical HIT");
+                totalDamage = CalculateCriticalDamage(totalDamage);
+                //Debug.Log("Total Critical Damage is" + totalDamage);
+            }
 
-        totalDamage = CheckTargetArmor(_target, totalDamage);
+            totalDamage = CheckTargetArmor(_target, totalDamage);
 
-        _target.TakeDamage(totalDamage);
-        DoMagicDamage(_target);
+            _target.TakeDamage(totalDamage);
+            DoMagicDamage(_target);
+        
+
+
     }
 
     #region Elemental or Magical Damage
@@ -335,33 +353,43 @@ public class CharacterStats : MonoBehaviour
 
     private int CheckTargetArmor(CharacterStats _target, int totalDamage)  //角色护甲值
     {
-        if (_target.IsChilled)  //若受到冰属性伤害，则造成的伤害降低
+        if (_target != null)
         {
-            totalDamage -= Mathf.RoundToInt(_target.Armor.GetValue() * 0.8f);
-        }
-        else
-        { 
-            totalDamage -= _target.Armor.GetValue();  //获取当前物体护甲值，最后伤害为总伤害 - 护甲
-        }
 
-        totalDamage = Mathf.Clamp(totalDamage, 0, int.MaxValue);  //避免伤害为负导致加血
-        return totalDamage;
+            if (_target.IsChilled)  //若受到冰属性伤害，则造成的伤害降低
+            {
+                totalDamage -= Mathf.RoundToInt(_target.Armor.GetValue() * 0.8f);
+            }
+            else
+            {
+                totalDamage -= _target.Armor.GetValue();  //获取当前物体护甲值，最后伤害为总伤害 - 护甲
+            }
+
+            totalDamage = Mathf.Clamp(totalDamage, 0, int.MaxValue);  //避免伤害为负导致加血
+        }
+            return totalDamage;
+
     }
 
     private bool TargetCanAvoidAttack(CharacterStats _target)  // 角色的闪避概率
     {
-        int totalEvasion = _target.Evasion.GetValue() + _target.Agility.GetValue();  //总闪避 = 闪避 + 敏捷加点
-
-        if (IsShocked)  //若敌人被震慑，则角色闪避概率增加20
+        if (_target != null)
         {
-            totalEvasion += 20;
+            int totalEvasion = _target.Evasion.GetValue() + _target.Agility.GetValue();  //总闪避 = 闪避 + 敏捷加点
+
+            if (IsShocked)  //若敌人被雷击，则角色闪避概率增加20
+            {
+                totalEvasion += 20;
+            }
+
+            if (Random.Range(0, 100) < totalEvasion)
+            {
+                //Debug.Log("Attack avoided");
+                return true;
+            }
         }
 
-        if (Random.Range(0, 100) < totalEvasion)
-        {
-            //Debug.Log("Attack avoided");
-            return true;
-        }
+        
         return false;
     }
 
@@ -390,6 +418,22 @@ public class CharacterStats : MonoBehaviour
             onHpUpdate();
         }
 
+    }
+
+
+    public virtual void IncreaseHpBy(int _healAmount)
+    { 
+        CurrentHp += _healAmount;
+
+        if (CurrentHp > GetMaxHp())
+        { 
+            CurrentHp = GetMaxHp();
+        }
+
+        if (onHpUpdate != null)
+        {
+            onHpUpdate();
+        }
     }
 
     public virtual void Die()
