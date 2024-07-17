@@ -99,7 +99,22 @@ public class Enemy : Entity
         }
 
         return false;
-    } 
+    }
+
+    
+
+    public void FreezeEnemyWhenVitalHitFromEnemy()  //当玩家血量低时使周边的敌人冻结一段时间，在FreezeEnemy_Effect中启用了协程
+    {
+        moveSpeed = 0;
+        anim.speed = 0;
+
+        Invoke("ReturnDefault", 2);
+    }
+    public void ReturnDefault()  //使敌人动画移动速度等恢复默认值，在FreezeEnemyWhenVitalHitFromEnemy中使用
+    {
+        moveSpeed = defalutMoveSpeed;
+        anim.speed = 1;
+    }
 
     public void FreezeEnemy(bool _freeze)  //角色施放大招时使敌人冻结
     {
