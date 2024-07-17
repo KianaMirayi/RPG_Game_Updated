@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Sword_Skill_Controller : MonoBehaviour
@@ -166,6 +167,13 @@ public class Sword_Skill_Controller : MonoBehaviour
                 {
                     //hit.GetComponent<Enemy>().DamageImpact();
                     player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+
+                    ItemData_Equipment equipAmulet = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Amulet);  //当装备上帝护身符时
+
+                    if (equipAmulet != null)
+                    {
+                        equipAmulet.Effect(hit.transform);
+                    }
                 }
             }
         }
@@ -187,7 +195,17 @@ public class Sword_Skill_Controller : MonoBehaviour
             if (Vector2.Distance(transform.position, EnemyTarget[TargetIndex].position) < 0.1f)  //当剑当前位置与敌人列表索引指向的位置之间的距离小于0.1时
             {
                 //EnemyTarget[TargetIndex].GetComponent<Enemy>().DamageImpact();
-                EnemyTarget[TargetIndex].GetComponent<Enemy>().stats.DoDamage(transform.GetComponent<CharacterStats>());//这么写对不对啊
+
+                EnemyTarget[TargetIndex].GetComponent<Enemy>().stats.DoDamage(EnemyTarget[TargetIndex].GetComponent<CharacterStats>());//这么写对不对啊
+
+
+                ItemData_Equipment equipAmulet = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Amulet);  //当装备上帝护身符时
+
+                if (equipAmulet != null)
+                {
+                    equipAmulet.Effect(EnemyTarget[TargetIndex].transform);
+                }
+
                 TargetIndex++;  //敌人列表的索引值自增
                 AmountOfBounce--;  //弹跳次数自减
 
@@ -214,7 +232,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         }
 
         //collision.GetComponent<Enemy>()?.DamageImpact();
-        collision.GetComponent<Enemy>().stats.DoDamage(collision.GetComponent<CharacterStats>());
+        
 
         if (collision.GetComponent<Enemy>() != null)  //当检测到敌人碰撞器
         {
@@ -229,6 +247,14 @@ public class Sword_Skill_Controller : MonoBehaviour
                         EnemyTarget.Add(hit.transform);  //将敌人的transform属性作为参数传入EnemyTarget列表中
                     }
                 }
+            }
+
+            collision.GetComponent<Enemy>().stats.DoDamage(collision.GetComponent<CharacterStats>());
+            ItemData_Equipment equipAmulet = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Amulet);
+
+            if (equipAmulet != null)
+            {
+                equipAmulet.Effect(collision.transform);
             }
         }
 

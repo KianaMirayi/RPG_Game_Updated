@@ -156,7 +156,7 @@ public class Sword_Skill : Skill
     public Vector2 DotsPosition(float t)
     { 
         Vector2 position = (Vector2)player.transform.position/*初始位置*/ + new Vector2(AimDirection().normalized.x * LaunchForce.x,AimDirection().normalized.y * LaunchForce.y)/*初速度向量*/ * t/*时间*/ + 0.5f * (Physics2D.gravity * SwordGravity)/*重力加速度*/ * (t * t);
-        // position = initial?position + initial?velocity * t + 1/2 * gravity * t * t
+        // position = initial?position + initial?xVelocity * t + 1/2 * gravity * t * t
         //这实际上是二维空间中物体抛射运动的位移公式，其基本形式是： S = S0 + V0 * t + 1/2 a * (t * t)
         //S是最终位置，S0是初始位置，V0是初速度，t是时间， a是加速度（重力加速度）
         return position;
