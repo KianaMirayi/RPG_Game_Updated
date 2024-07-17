@@ -9,7 +9,7 @@ public class ItemObject : MonoBehaviour
     [SerializeField]private Rigidbody2D rb;
 
     [SerializeField] private ItemData itemData;
-    //[SerializeField] private Vector2 velocity;
+    //[SerializeField] private Vector2 xVelocity;
 
     //private void OnValidate()
     //{

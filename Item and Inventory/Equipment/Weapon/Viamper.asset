@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67dbab670152d604a9e46d23e3208f09, type: 3}
+  m_Name: Viamper
+  m_EditorClassIdentifier: 
+  ItemType: 1
+  ItemName: Viamper
+  Icon: {fileID: -1944902997, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 8.1
+  equipmentType: 0
+  itemEffects:
+  - {fileID: 11400000, guid: 7eea3e6568f044b4f8c97dc9d49857a6, type: 2}
+  Strength: 0
+  Agility: 0
+  Intelligence: 0
+  Vitality: 0
+  Damage: 15
+  CritChance: 10
+  CritePower: 20
+  Health: 30
+  Armor: 0
+  Evasion: 0
+  MagicalResistance: 0
+  FireDamage: 0
+  IceDamage: 0
+  LightingDamage: 0
+  CraftingMaterial: []

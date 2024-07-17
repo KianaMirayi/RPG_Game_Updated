@@ -17,6 +17,7 @@ public class ItemData_Equipment : ItemData
     public EquipmentType equipmentType;
 
     public ItemEffect[] itemEffects;
+    public float itemCoolDown;
 
 
     [Header("Major Stats")]
@@ -45,11 +46,11 @@ public class ItemData_Equipment : ItemData
     public List<InventoryItem> CraftingMaterial;
 
 
-    public void ExecuteItemEffect()
+    public void Effect(Transform _transform)
     {
         foreach (var item in itemEffects)
         { 
-            item.ExcuteEffect();
+            item.ExcuteEffect(_transform);
         }
     }
 
