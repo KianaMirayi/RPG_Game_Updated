@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
+    [SerializeField] private GameObject CharacterUI;
+
+    public UI_ItemDescription itemDescription;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        //itemDescription = GetComponentInChildren<UI_ItemDescription>(); 
     }
 
     // Update is called once per frame
