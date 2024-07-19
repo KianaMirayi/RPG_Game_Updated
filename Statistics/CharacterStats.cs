@@ -5,6 +5,23 @@ using System.Xml.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum StatType
+{
+    strength,
+    agility,
+    intelligence,
+    vitality,
+    damage,
+    critChance,
+    critPower,
+    health,
+    armor,
+    evasion,
+    magicalResistance,
+    fireDamage,
+    iceDamage,
+    lightingDamage
+}
 public class CharacterStats : MonoBehaviour
 {
     private EntityFX fx;
@@ -470,5 +487,61 @@ public class CharacterStats : MonoBehaviour
     public int GetMaxHp()  //获取角色最大生命值并之后分配给UI
     {
         return MaxHp.GetValue() + Vitality.GetValue() * 5;
+    }
+
+
+    public Stats GetStat(StatType statType)
+    {
+        //PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
+        switch (statType)
+        {
+            case StatType.strength:
+                return Strength;
+
+            case StatType.agility:
+                return Agility;
+
+            case StatType.intelligence:
+                return Intelligence;
+
+            case StatType.vitality:
+                return Vitality;
+
+            case StatType.damage:
+                return Damage;
+
+            case StatType.critChance:
+                return CritChance;
+
+            case StatType.critPower:
+                return CritPower;
+
+            case StatType.health:
+                return MaxHp;
+
+            case StatType.armor:
+                return Armor;
+
+            case StatType.evasion:
+                return Evasion;
+
+            case StatType.magicalResistance:
+                return MagicResistance;
+
+            case StatType.fireDamage:
+                return FireDamage;
+
+            case StatType.iceDamage:
+                return IceDamage;
+
+            case StatType.lightingDamage:
+                return LightingDamage;
+
+
+
+            default:
+                return null;
+
+        }
     }
 }
