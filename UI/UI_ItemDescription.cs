@@ -30,8 +30,25 @@ public class UI_ItemDescription : MonoBehaviour
             return;
         }
 
+        if (item.equipmentType == EquipmentType.Weapon)
+        {
+            itemTypeText.text = "武器";
+        }
+        if (item.equipmentType == EquipmentType.Amulet)
+        {
+            itemTypeText.text = "护身符";
+        }
+        if (item.equipmentType == EquipmentType.Armor)
+        {
+            itemTypeText.text = "护甲";
+        }
+        if (item.equipmentType == EquipmentType.Flask)
+        {
+            itemTypeText.text = "药水";
+        }
+
         itemNameText.text = item.name;
-        itemTypeText.text = item.equipmentType.ToString();
+        //itemTypeText.text = item.equipmentType.ToString();
         itemDescription.text = item.GetDescription();
 
         if (itemNameText.text.Length > 18)  //当文本字数超过一定限制时，缩小字体
