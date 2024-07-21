@@ -143,7 +143,7 @@ public class Player : Entity
             SkillManager.SkillInstance.Crystal.CanUseSkill();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))  //按1使用药水
         {
             Debug.Log("Use Flask");
             Inventory.Instance.UseFlask();
@@ -233,7 +233,18 @@ public class Player : Entity
 
     public void CheckDashInput()
     {
+        //if (IsWallDetected())
+        //{ 
+        //    return;
+        //}
         //dashUsetime -= Time.deltaTime;
+
+
+        if (skillManager.Dash.dashUnlocked == false)  //当冲刺未被解锁时，将不能使用冲刺
+        {
+            return;
+        }
+
 
         if (Input.GetKeyDown(KeyCode.LeftShift) /*&& dashUsetime < 0*/ && skillManager.Dash.CanUseSkill())
         {

@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviour
 
     public Player player;  // 创建Player类成员，这样可以提供全局通过代码访问该类
 
+    public int Currency;
+
     private void Awake()
     {
         if (instance != null )  //若检测到有其他该类实例则销毁它
@@ -18,5 +20,17 @@ public class PlayerManager : MonoBehaviour
         { 
             instance = this;  
         }
+    }
+
+    public bool HaveEnoughMoney(int _price)
+    {
+        if (_price > Currency)
+        {
+            Debug.Log("勇士很穷没有钱");
+            return false;
+        }
+
+        Currency = Currency - _price;  //扣钱
+        return true;
     }
 }

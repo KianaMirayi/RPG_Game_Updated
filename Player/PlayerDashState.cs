@@ -19,14 +19,16 @@ public class PlayerDashState : PlayerState
 
         //SkillManager.SkillInstance.Clone.CreateClone(player.transform);
         //player.skillManager.Clone.CreateClone(player.transform,Vector2.zero);
-        player.skillManager.Clone.CreateCloneOnDashBegin();
+        //player.skillManager.Clone.CreateCloneOnDashBegin();
+        player.skillManager.Dash.CreateCloneOnDash();
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        player.skillManager.Clone.CreateCloneOnDashOver();
+        //player.skillManager.Clone.CreateCloneOnDashOver();
+        player.skillManager.Dash.CreateCloneOnArrival();
         player.setVelocity(0, rb.velocity.y);
     }
 
