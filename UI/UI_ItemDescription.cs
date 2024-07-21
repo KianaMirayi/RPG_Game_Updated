@@ -8,8 +8,11 @@ public class UI_ItemDescription : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemTypeText;
     [SerializeField] private TextMeshProUGUI itemDescription;
+    [SerializeField] private TextMeshProUGUI itemStory;
 
     [SerializeField] private int DefaultFontSize = 28;
+
+    private ItemData_Equipment itemData_Equipment;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +53,7 @@ public class UI_ItemDescription : MonoBehaviour
         itemNameText.text = item.name;
         //itemTypeText.text = item.equipmentType.ToString();
         itemDescription.text = item.GetDescription();
+        //itemStory.text = item.GetDescription();
 
         if (itemNameText.text.Length > 18)  //当文本字数超过一定限制时，缩小字体
         {
@@ -70,4 +74,17 @@ public class UI_ItemDescription : MonoBehaviour
         
     }
 
+    //public void ShowItemStory(ItemData_Equipment _item)
+    //{
+        
+
+    //    itemStory.text = _item.itemStory;
+    //    gameObject.SetActive(true);
+    //}
+
+    //public void HideItemStory()
+    //{
+    //    itemStory.text = "";
+    //    gameObject.SetActive(false);
+    //}
 }

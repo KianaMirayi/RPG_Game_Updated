@@ -12,6 +12,7 @@ public class UI : MonoBehaviour
     public UI_ItemDescription itemDescription;
     public UI_StatDescription statDescription;
     public UI_CraftWindow craftWindow;
+    public UI_SkillDescription skillDescription;
 
     // Start is called before the first frame update
     void Start()

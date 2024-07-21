@@ -177,8 +177,36 @@ public class UI_StatSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)//鼠标悬停时触发详细信息
     {
+        //Vector2 mousePosition = Input.mousePosition;
+        //Debug.Log(mousePosition);
+
+        //float xOffset = 0;
+        //float yOffset = 0;
+
+        //if (mousePosition.x > 600)
+        //{
+        //    xOffset = -150;
+        //}
+        //else
+        //{
+        //    xOffset = 350;
+        //}
+
+        //if (mousePosition.y > 650)
+        //{
+        //    yOffset = -80;
+        //}
+        //else
+        //{
+        //    yOffset = 80;
+        //}
+
+
+
         ui.statDescription.ShowStatDescription(StatDescription);
         ui.statDescription.ShowStatStory(StatStory);//For Test
+        //ui.statDescription.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
+
     }
 
     public void OnPointerExit(PointerEventData eventData)//鼠标离开时隐藏详细信息

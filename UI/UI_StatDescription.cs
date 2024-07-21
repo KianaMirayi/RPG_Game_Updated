@@ -32,7 +32,7 @@ public class UI_StatDescription : MonoBehaviour
     public void HideStatDescription()
     {
         statDescription.text = " ";
-        statStory.text = " ";//test
+        //statStory.text = " ";//test
         gameObject.SetActive(false);
     }
 
