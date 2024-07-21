@@ -40,6 +40,12 @@ public class ItemObject : MonoBehaviour
 
     public void PickUpItem()
     {
+        if (!Inventory.Instance.CanAddItem() && itemData.ItemType == ItemType.Equipment)  //当角色目前已经无法继续装备物品至装备背包并且拾取的物品类型是装备类型时
+        {
+            rb.velocity = new Vector2(0, 7); //一点小特效：当角色无法再拾取物品时，掉落的物品会小小跳一下
+            return;
+        }
+
         Inventory.Instance.AddItem(itemData);
         Destroy(gameObject);
     }

@@ -20,13 +20,15 @@ public class Inventory : MonoBehaviour
 
 
     [Header("Inventory UI")]
-    [SerializeField] private Transform inventorySlotParent;
-    [SerializeField] private Transform stashSlotParent;
-    [SerializeField] private Transform equipmentSlotParent;
+    [SerializeField] private Transform inventorySlotParent;  //背包界面
+    [SerializeField] private Transform stashSlotParent; //材料界面
+    [SerializeField] private Transform equipmentSlotParent;//装备界面
+    [SerializeField] private Transform statSlotParent;//角色数据
 
-    private UI_ItemSlot[] inventoryItemSlot;
-    private UI_ItemSlot[] stashItemSlot;
-    private UI_EquipmentSlot[] equipmentSlot;
+    private UI_ItemSlot[] inventoryItemSlot;//背包界面数组
+    private UI_ItemSlot[] stashItemSlot;//材料界面数组
+    private UI_EquipmentSlot[] equipmentSlot;//装备界面数组
+    private UI_StatSlot[] statSlot;//角色界面数组
 
     [Header("Items CoolDown")]
     private float lastTimeUsedFlask;
@@ -58,19 +60,26 @@ public class Inventory : MonoBehaviour
         inventoryItemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         stashItemSlot = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
         equipmentSlot = equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>();
+        statSlot = statSlotParent.GetComponentsInChildren<UI_StatSlot>();
 
 
         equipment = new List<InventoryItem>();
         equipmentDictionary = new Dictionary<ItemData_Equipment, InventoryItem>();
+
+
         AddStartingItem();
 
     }
 
-    private void AddStartingItem()
+    private void AddStartingItem()  //初始装备
     {
         for (int i = 0; i < StartingEquipment.Count; i++)
         {
-            AddItem(StartingEquipment[i]);
+            if (StartingEquipment[i] != null)  //避免填充初始装备时没有指定具体的装备
+            { 
+                AddItem(StartingEquipment[i]);
+                
+            }
 
         }
     }
@@ -95,6 +104,8 @@ public class Inventory : MonoBehaviour
         { 
             UnEquipItem(OldEquipment);
             AddItem(OldEquipment);
+
+
         }
 
 
@@ -112,6 +123,7 @@ public class Inventory : MonoBehaviour
     {
         if (equipmentDictionary.TryGetValue(itemToRemove, out InventoryItem value))
         {
+            ;
             equipment.Remove(value);
             equipmentDictionary.Remove(itemToRemove);
             itemToRemove.RemoveModifiers();
@@ -151,11 +163,27 @@ public class Inventory : MonoBehaviour
         { 
             stashItemSlot[i].UpdateSlot(stash[i]);
         }
+
+        for (int i = 0; i < statSlot.Length; i++)
+        {
+            statSlot[i].UpdateStatValueUI();
+        }
+
+
     }
 
+    public bool CanAddItem()//当角色收集装备数大于当前角色装备背包容量时
+    {
+        if (inventory.Count >= inventoryItemSlot.Length)
+        {
+            Debug.Log("No More Space");
+            return false;
+        }
+        return true;
+    }
     public void AddItem(ItemData _item)
     {
-        if (_item.ItemType == ItemType.Equipment)
+        if (_item.ItemType == ItemType.Equipment && CanAddItem())
         {
             AddToInventory(_item);
 
@@ -169,7 +197,7 @@ public class Inventory : MonoBehaviour
         UpdateSlotUI();
     }
 
-    private void AddToStash(ItemData _item)
+    private void AddToStash(ItemData _item)  
     {
         if (stashDictionary.TryGetValue(_item, out InventoryItem value))
         {
@@ -182,7 +210,6 @@ public class Inventory : MonoBehaviour
             stashDictionary.Add(_item, newitem);
         }
     }
-
     private void AddToInventory(ItemData _item)
     {
         if (inventoryDictionary.TryGetValue(_item, out InventoryItem value))
@@ -229,6 +256,8 @@ public class Inventory : MonoBehaviour
 
         UpdateSlotUI();
     }
+
+
 
     public bool CanCraft(ItemData_Equipment _itemToCraft, List<InventoryItem> _requiredMaterials)  //合成台工艺
     { 

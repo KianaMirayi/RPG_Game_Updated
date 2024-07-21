@@ -46,6 +46,8 @@ public class ItemData_Equipment : ItemData
     public List<InventoryItem> CraftingMaterial;
 
 
+    private int DescriptionLength;
+
     public void Effect(Transform _transform)
     {
         foreach (var item in itemEffects)
@@ -102,5 +104,57 @@ public class ItemData_Equipment : ItemData
         playerStats.LightingDamage.RemoveModifier(LightingDamage);
     }
 
+    public override string GetDescription()
+    {
+        builder.Length = 0;
+        DescriptionLength = 0;
 
+        AddItemDescription(Strength, "力量");
+        AddItemDescription(Agility, "体力");
+        AddItemDescription(Intelligence, "智力");
+
+        AddItemDescription(Damage, "攻击力");
+        AddItemDescription(CritChance, "暴击率");
+        AddItemDescription(CritePower, "暴击伤害");
+
+        AddItemDescription(Health, "生命值");
+        AddItemDescription(Armor, "护甲");
+        AddItemDescription(Evasion, "闪避");
+        AddItemDescription(MagicalResistance, "魔法抗性");
+
+        AddItemDescription(FireDamage, "火元素伤害");
+        AddItemDescription(IceDamage, "冰元素伤害");
+        AddItemDescription(LightingDamage, "雷元素伤害");
+
+
+        if (DescriptionLength < 5)
+        {
+            for (int i = 0; i < 5 - DescriptionLength; i++)
+            {
+                builder.AppendLine();
+                builder.Append("");
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    private void AddItemDescription(int _value, string _name)
+    {
+        if (_value != 0)
+        {
+            if (builder.Length > 0)
+            {
+                builder.AppendLine();
+            }
+        }
+
+        if (_value > 0)
+        {
+
+            builder.Append("+ " + _value + " " + _name);
+        }
+
+        DescriptionLength++;
+    }
 }
