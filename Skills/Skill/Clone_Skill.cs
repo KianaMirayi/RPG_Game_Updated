@@ -9,8 +9,8 @@ public class Clone_Skill : Skill
     [SerializeField] private float CloneDuration;
     [SerializeField] private bool CanAttack;
 
-    [SerializeField] private bool CreateCloneOnStart;
-    [SerializeField] private bool CreateCloneOnOver;
+    //[SerializeField] private bool CreateCloneOnStart;
+    //[SerializeField] private bool CreateCloneOnOver;
     [SerializeField] private bool CanCreateCloneOnCounterAttack;
 
     [Header("Crystal instead of Clone")]
@@ -34,23 +34,7 @@ public class Clone_Skill : Skill
     }
 
 
-    public void CreateCloneOnDashBegin()
-    {
-        if (CreateCloneOnStart)
-        {
-            CreateClone(player.transform, Vector3.zero);
-        }
-
-        
-    }
-
-    public void CreateCloneOnDashOver()
-    {
-        if (CreateCloneOnOver)
-        {
-            CreateClone(player.transform, Vector3.zero);
-        }
-    }
+   
 
     public void CreateCloneOnCounterAttack(Transform _enemyTransform)  // 在弹反成功时创造幻影
     {
