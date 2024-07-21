@@ -20,10 +20,18 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] private UI_SkillTreeSlot[] shouldBeUnlocked;
     [SerializeField] private UI_SkillTreeSlot[] shouldBeLocked;
 
+    [SerializeField] private int SkillPrice;  //货币系统，用于解锁技能，接入玩家管理器
+
 
     public void OnValidate()
     {
         gameObject.name = "SkillTreeSlot_UI _ " + skillName;
+    }
+
+    private void Awake()
+    {
+        GetComponent<Button>().onClick.AddListener(() => UnLockSkillSlot());
+        
     }
 
     public void Start()
@@ -32,7 +40,6 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         SkillImage.color = lockedSkillColor;
 
-        GetComponent<Button>().onClick.AddListener(() => UnLockSkillSlot());
 
         ui = GetComponentInParent<UI>();
     }
@@ -40,26 +47,31 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void UnLockSkillSlot()
     {
-        for (int i = 0; i < shouldBeUnlocked.Length; i++)  //应该被解锁的没有解锁
+        if (PlayerManager.instance.HaveEnoughMoney(SkillPrice))
         {
-            if (shouldBeUnlocked[i].unlocked == false)
+            for (int i = 0; i < shouldBeUnlocked.Length; i++)  //应该被解锁的没有解锁
             {
-                Debug.Log("Can't unlock Skill");
-                return;
+                if (shouldBeUnlocked[i].unlocked == false)
+                {
+                    Debug.Log("Can't unlock Skill");
+                    return;
+                }
             }
+
+            for (int i = 0; i < shouldBeLocked.Length; i++)  //应该锁定的被解锁了
+            {
+                if (shouldBeLocked[i].unlocked == true)
+                {
+                    Debug.Log("Cannot unlock SKill");
+                    return;
+                }
+            }
+
+            unlocked = true;
+            SkillImage.color = Color.white;
         }
 
-        for (int i = 0; i < shouldBeLocked.Length; i++)  //应该锁定的被解锁了
-        {
-            if (shouldBeLocked[i].unlocked == true)
-            {
-                Debug.Log("Cannot unlock SKill");
-                return;
-            }
-        }
-
-        unlocked = true;
-        SkillImage.color = Color.white;
+        
 
     }
 
@@ -68,7 +80,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         ui.skillDescription.ShowDescripton(skillDescription,skillName);
 
         Vector2 mousePosition = Input.mousePosition;
-        Debug.Log(mousePosition);
+        //Debug.Log(mousePosition);
 
         float xOffset = 0;
         float yOffset = 0;
