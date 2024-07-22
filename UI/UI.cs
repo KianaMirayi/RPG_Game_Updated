@@ -14,6 +14,11 @@ public class UI : MonoBehaviour
     public UI_CraftWindow craftWindow;
     public UI_SkillDescription skillDescription;
 
+    private void Awake()
+    {
+        SwitchTo(SkillTreeUI);  //在分配技能给技能UI之前先启用技能UI
+    }
+
     // Start is called before the first frame update
     void Start()
     {
