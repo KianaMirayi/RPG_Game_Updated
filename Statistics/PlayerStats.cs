@@ -48,4 +48,40 @@ public class PlayerStats : CharacterStats
 
         GetComponent<PlayerItemDrop>()?.GenerateDrop();
     }
+
+
+    public override void OnEvasion()
+    {
+        //Debug.Log("Player avoided attack");
+        SkillManager.SkillInstance.Dodge.CreatMirageOnDodge();
+    }
+
+    public void CloneDoDamage(CharacterStats _targetStats, float _attackMultiplier)
+    {
+        if (TargetCanAvoidAttack(_targetStats))
+        {
+            return;
+        }
+
+        int totalDamage = Damage.GetValue() + Strength.GetValue();  //总伤害 = 基础伤害 + 力量加点
+
+        if (_attackMultiplier > 0) //应用幻影的伤害乘数
+        {
+            totalDamage = Mathf.RoundToInt(totalDamage * _attackMultiplier);
+        }
+
+        if (CanCrit())
+        {
+            //Debug.Log("Critical HIT");
+            totalDamage = CalculateCriticalDamage(totalDamage);
+            //Debug.Log("Total Critical Damage is" + totalDamage);
+        }
+
+        totalDamage = CheckTargetArmor(_targetStats, totalDamage);
+
+        _targetStats.TakeDamage(totalDamage);
+        //DoMagicDamage(_target);
+    }
+
+
 }

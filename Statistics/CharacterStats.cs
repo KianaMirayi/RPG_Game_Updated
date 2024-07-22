@@ -1,3 +1,4 @@
+using Autodesk.Fbx;
 using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,9 +29,9 @@ public class CharacterStats : MonoBehaviour
 
     [Header("Major Stats")]
     public Stats Strength;  // 每增加一点就可以提升1点的暴击伤害
-    public Stats Agility;   // 每增加一点就可以提升1点的闪避和反击
-    public Stats Intelligence;  //每增加一点就可以提升1点的魔法伤害
-    public Stats Vitality;  // 每增加一点就可以提升3点-5点的Hp
+    public Stats Agility;   // 每增加一点就可以提升1点的闪避和暴击率
+    public Stats Intelligence;  //每增加一点就可以提升3点的魔法抗性
+    public Stats Vitality;  // 每增加一点就可以提升5点的Hp
 
     [Header("Offensive Stats")]
     public Stats Damage;//物体造成的伤害
@@ -41,7 +42,7 @@ public class CharacterStats : MonoBehaviour
     [Header("Defensive Stats")]
     public Stats MaxHp;
     public Stats Armor;
-    public Stats Evasion;
+    public Stats Evasion; //闪避可以通过敏捷提高
     public Stats MagicResistance;
 
     [Header("Magic Stats")]
@@ -70,6 +71,8 @@ public class CharacterStats : MonoBehaviour
     public System.Action onHpUpdate;  //委托 生命值实时更新
 
     public bool IsDead = false;
+
+    public bool IsVulnerable;
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -109,6 +112,20 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
+    public void MakeVulnerableFor(float _duration)
+    {
+        StartCoroutine(VulnerableCoroutine(_duration));
+    }
+
+    public IEnumerator VulnerableCoroutine(float _duration)  //当允许易伤时将启用协程
+    { 
+        IsVulnerable = true;
+
+        yield return new WaitForSeconds(_duration);
+
+        IsVulnerable = false;
+    }
+
     public virtual void IncreaseStatBy(int _modifier, float _duration, Stats _statToModify)
     {
         StartCoroutine(StartModifyCoroutine(_modifier,_duration,_statToModify));
@@ -145,7 +162,7 @@ public class CharacterStats : MonoBehaviour
             totalDamage = CheckTargetArmor(_target, totalDamage);
 
             _target.TakeDamage(totalDamage);
-            DoMagicDamage(_target);
+            //DoMagicDamage(_target);
         
 
 
@@ -368,7 +385,7 @@ public class CharacterStats : MonoBehaviour
         return totalMagicDamage;
     }
 
-    private int CheckTargetArmor(CharacterStats _target, int totalDamage)  //角色护甲值
+    protected int CheckTargetArmor(CharacterStats _target, int totalDamage)  //角色护甲值
     {
         if (_target != null)
         {
@@ -388,11 +405,16 @@ public class CharacterStats : MonoBehaviour
 
     }
 
-    private bool TargetCanAvoidAttack(CharacterStats _target)  // 角色的闪避概率
+    public virtual void OnEvasion()
+    { 
+        
+    }
+
+    protected bool TargetCanAvoidAttack(CharacterStats _targetStats)  // 角色的闪避概率
     {
-        if (_target != null)
+        if (_targetStats != null)
         {
-            int totalEvasion = _target.Evasion.GetValue() + _target.Agility.GetValue();  //总闪避 = 闪避 + 敏捷加点
+            int totalEvasion = _targetStats.Evasion.GetValue() + _targetStats.Agility.GetValue();  //总闪避 = 闪避 + 敏捷加点
 
             if (IsShocked)  //若敌人被雷击，则角色闪避概率增加20
             {
@@ -402,6 +424,7 @@ public class CharacterStats : MonoBehaviour
             if (Random.Range(0, 100) < totalEvasion)
             {
                 //Debug.Log("Attack avoided");
+                _targetStats.OnEvasion();
                 return true;
             }
         }
@@ -412,13 +435,13 @@ public class CharacterStats : MonoBehaviour
 
     
 
-    public virtual void TakeDamage(int _damage)  //角色受到伤害
+    public virtual void TakeDamage(int _damage)  //受到伤害
     { 
         //CurrentHp -= _damage;
         DecreaseHpBy(_damage);
 
         GetComponent<Entity>().DamageImpact();
-        fx.StartCoroutine("FlashFx");
+        fx.StartCoroutine("FlashFx"); //受击特效启用协程
 
         if (CurrentHp <= 0 && !IsDead)
         {
@@ -428,6 +451,11 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void DecreaseHpBy(int _damage)
     {
+        if (IsVulnerable)
+        {
+            _damage = Mathf.RoundToInt(_damage * 1.1f); // 当易伤时，收到的伤害为110%
+        }
+
         CurrentHp -= _damage;
 
         if (onHpUpdate != null)
