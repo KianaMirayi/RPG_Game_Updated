@@ -138,7 +138,7 @@ public class Player : Entity
 
         //Debug.Log(IsWallDetected());
 
-        if (Input.GetKeyDown(KeyCode.E))  //comment
+        if (Input.GetKeyDown(KeyCode.E) && SkillManager.SkillInstance.Crystal.crystalUnlocked)  //当水晶技能解锁时，按下E可以召唤水晶
         {
             SkillManager.SkillInstance.Crystal.CanUseSkill();
         }

@@ -38,10 +38,14 @@ public class PlayerCounterAttackState : PlayerState
                     stateTimer = 1;
                     player.anim.SetBool("SuccessfullyCounterAttack", true);  //播放成功弹反的动画
 
+                    player.skillManager.Parry.UseSkill();//弹反成功时回复生命值
+
+
                     if (CanCreateClone)
                     { 
                         CanCreateClone =false;
-                        player.skillManager.Clone.CreateCloneOnCounterAttack(hit.transform);  //成功弹反将创造幻影并使敌人击退
+                        //player.skillManager.Clone.CreateCloneWithDelay(hit.transform);  //成功弹反将创造幻影并使敌人击退
+                        player.skillManager.Parry.CreateMirageOnParry(hit.transform);
                         
                     }
 

@@ -24,19 +24,19 @@ public class PlayerGroundedState : PlayerState
         //Debug.Log("ground detected");
 
 
-        if (Input.GetKeyDown(KeyCode.R))  //大招黑洞
+        if (Input.GetKeyDown(KeyCode.R) && player.skillManager.BlackHole.BlackHoleUnlocked)  //大招黑洞
         {
 
             stateMachine.changeState(player.BlackHoleState);
             SkillManager.SkillInstance.BlackHole.CanGrow = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())  //当按下鼠标右键，并且没有剑时
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && player.skillManager.Sword.RegularSwordUnlocked)  //当按下鼠标右键，并且没有剑时
         {
             stateMachine.changeState(player.AimSwordState);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q)) //格挡反击技能
+        if (Input.GetKeyDown(KeyCode.Q) && player.skillManager.Parry.parryUnlocked) //格挡反击技能,当解锁该技能时才可使用
         {
             stateMachine.changeState(player.counterAttackState);
         }
