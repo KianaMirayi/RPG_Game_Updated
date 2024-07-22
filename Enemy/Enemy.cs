@@ -12,6 +12,7 @@ public class Enemy : Entity
     [Header("Move Info")]
     public float moveSpeed;
     public float defalutMoveSpeed;
+    public float defaultAnimSpeed;
 
     public float idleTime;
     public float battleTime;
@@ -40,6 +41,7 @@ public class Enemy : Entity
         stateMachine = new EnemyStateMachine();
 
         defalutMoveSpeed = moveSpeed;
+        
     }
 
     public override void Start()
@@ -151,4 +153,13 @@ public class Enemy : Entity
         anim.speed = 1;
     }
 
+
+    public void SLowEnemy()
+    {
+        moveSpeed = defalutMoveSpeed * 0.8f;
+        anim.speed = anim.speed * 0.8f;
+
+        Invoke("ReturnDefault", 2);
+
+    }
 }
