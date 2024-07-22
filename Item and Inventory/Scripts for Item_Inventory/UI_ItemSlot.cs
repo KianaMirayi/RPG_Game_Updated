@@ -11,6 +11,10 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler,IPointerEnterHandl
     [SerializeField]public Image itemImage;
     [SerializeField]public TextMeshProUGUI itemText;
 
+    [SerializeField] public TextMeshProUGUI ItemStory;
+
+    private ItemData_Equipment itemData_Equipment;
+
     public InventoryItem item;
 
     public UI ui;
@@ -91,7 +95,36 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler,IPointerEnterHandl
             return ;
         }
 
+        Vector2 mousePosition = Input.mousePosition;
+        //Debug.Log(mousePosition);
+
+        float xOffset = 0;
+        float yOffset = 0;
+
+        if (mousePosition.x > 600)
+        {
+            xOffset = -250;
+        }
+        else
+        {
+            xOffset = 250;
+        }
+
+        if (mousePosition.y > 500)
+        {
+            yOffset = -100;
+        }
+        else
+        {
+            yOffset = 135;
+        }
+
         ui.itemDescription.ShowItemDescription(item.data as ItemData_Equipment);
+        ui.itemDescription.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
+        //ui.itemDescription.ShowItemStory(itemData_Equipment);
+        
+
+
     }
 
     public void OnPointerExit(PointerEventData eventData)//OnPointerExit 是 Unity 引擎中的一个接口方法，用于处理指针退出（离开）事件。它是 IPointerExitHandler 接口的一部分，常用于检测当鼠标或其他指针设备离开游戏对象的时候。
@@ -102,5 +135,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler,IPointerEnterHandl
         }
 
         ui.itemDescription.HideItemDescription();
+        //ui.itemDescription.HideItemStory();
+        
     }
 }

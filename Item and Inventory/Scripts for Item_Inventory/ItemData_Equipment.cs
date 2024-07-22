@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 public enum EquipmentType
@@ -16,8 +18,12 @@ public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;
 
+    [Header("Unique effect")]
     public ItemEffect[] itemEffects;
     public float itemCoolDown;
+
+    [TextArea]
+    [SerializeField] public string EffectDescription;
 
 
     [Header("Major Stats")]
@@ -132,8 +138,19 @@ public class ItemData_Equipment : ItemData
             for (int i = 0; i < 5 - DescriptionLength; i++)
             {
                 builder.AppendLine();
-                builder.Append("");
+                
+                
+                
+                builder.Append("123");
             }
+        }
+
+        if (EffectDescription.Length > 0)
+        {
+            builder.AppendLine();
+            builder.AppendLine();
+
+            builder.Append(EffectDescription);
         }
 
         return builder.ToString();
@@ -157,4 +174,6 @@ public class ItemData_Equipment : ItemData
 
         DescriptionLength++;
     }
+
+    
 }

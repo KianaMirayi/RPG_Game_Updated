@@ -160,16 +160,20 @@ public class Inventory : MonoBehaviour
         }
 
         for (int i = 0; i < stash.Count; i++)
-        { 
+        {
             stashItemSlot[i].UpdateSlot(stash[i]);
         }
 
+        UpDateStatsUI();
+
+    }
+
+    public void UpDateStatsUI()
+    {
         for (int i = 0; i < statSlot.Length; i++)
         {
             statSlot[i].UpdateStatValueUI();
         }
-
-
     }
 
     public bool CanAddItem()//当角色收集装备数大于当前角色装备背包容量时
