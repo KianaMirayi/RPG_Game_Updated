@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum SwordType  // 为剑的类型声明一个枚举
  { 
@@ -13,7 +14,8 @@ public enum SwordType  // 为剑的类型声明一个枚举
 public class Sword_Skill : Skill
 {
     [Header("Skill info")]
-
+    [SerializeField] public UI_SkillTreeSlot UnlockRegularSwordButton;
+    public bool RegularSwordUnlocked;
     [SerializeField] public GameObject SwordPrefab;
     [SerializeField] public Vector2 LaunchForce;
     [SerializeField] public float SwordGravity;
@@ -29,20 +31,32 @@ public class Sword_Skill : Skill
     public GameObject[] dots;  //声明一个数组存储瞄准点
 
     [Header("Bounce info")]
+    [SerializeField] public UI_SkillTreeSlot UnlockBounceSwordButton;
+    //public bool BounceSwordUnlocked;
     [SerializeField] public int AmountOfBounce;
     [SerializeField] public float BounceGravity;
 
     [Header("Pierce info")]
+    [SerializeField] public UI_SkillTreeSlot UnlockPireceSwordButton;
+    //public bool PireceSwordUnlocked;
     [SerializeField] public int AmountOfPierce;
     [SerializeField] public float PierceGravity;
 
     [Header("Spin info")]
+    [SerializeField] public UI_SkillTreeSlot UnlockSpinSwordButton;
+    //public bool SpinSwordUnlocked;
     [SerializeField] public bool IsSpin;
     [SerializeField] public float MaxTravelDistance;
     [SerializeField] public float SpinDuration;
     [SerializeField] public float SpinGravity;
     [SerializeField] public float HitFrequency;
 
+
+    [Header("被动")]
+    [SerializeField] public UI_SkillTreeSlot UnlockSlowButton;
+    public bool SlowUnlocked;
+    [SerializeField] public UI_SkillTreeSlot UnlockVulnerableButton;
+    public bool VulnerableUnlocked;
 
 
 
@@ -53,7 +67,17 @@ public class Sword_Skill : Skill
 
     public override void Start()
     {
+
         base.Start();
+
+        UnlockRegularSwordButton.GetComponent<Button>().onClick.AddListener(UnlockRegularSword);
+        UnlockBounceSwordButton.GetComponent<Button>().onClick.AddListener(UnlockBounceSowrd);
+        UnlockPireceSwordButton.GetComponent<Button>().onClick.AddListener(UnlockPireceSword);
+        UnlockSpinSwordButton.GetComponent<Button>().onClick.AddListener(UnlockSpinSword);
+        UnlockSlowButton.GetComponent<Button>().onClick.AddListener(UnlockSlow);
+        UnlockVulnerableButton.GetComponent<Button>().onClick.AddListener(UnlockVulnerable);
+
+
         GenerateDots();
         SetUpGravity();
     }
@@ -73,6 +97,63 @@ public class Sword_Skill : Skill
         }
     }
 
+
+    #region Skill Unlock
+
+    public void UnlockRegularSword()
+    {
+        if (UnlockRegularSwordButton.unlocked)
+        {
+            SwordType = SwordType.Regular;
+            RegularSwordUnlocked = true;
+        }
+                
+    }
+
+
+    public void UnlockBounceSowrd()
+    {
+        if (UnlockBounceSwordButton.unlocked)
+        {
+            SwordType = SwordType.Bounce;
+        }
+
+    }
+
+    public void UnlockPireceSword()
+    {
+        if (UnlockPireceSwordButton.unlocked)
+        {
+            SwordType = SwordType.Pirece;
+        }
+    }
+
+    public void UnlockSpinSword()
+    {
+        if (UnlockSpinSwordButton.unlocked)
+        {
+            SwordType = SwordType.Spin;
+        }
+    }
+
+    public void UnlockSlow()
+    {
+        if (UnlockSlowButton.unlocked)
+        { 
+            SlowUnlocked = true;
+        }
+    }
+
+    public void UnlockVulnerable()
+    {
+        if (UnlockVulnerableButton.unlocked)
+        { 
+            VulnerableUnlocked = true;
+        }
+    }
+
+
+    #endregion
 
     public void CreatSword()  //这里实现对Sword_Skill_Controller脚本的访问
     {

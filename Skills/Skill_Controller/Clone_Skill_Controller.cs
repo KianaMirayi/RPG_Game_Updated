@@ -21,6 +21,7 @@ public class Clone_Skill_Controller : MonoBehaviour
     private bool CanDuplicateClone;
     private float PossibilityToDuplicateClone;
     private int facingDir = 1;
+    private float attackMultiplier;
 
 
     private void Awake()
@@ -44,7 +45,7 @@ public class Clone_Skill_Controller : MonoBehaviour
             }
         }
     }
-    public void SetUpClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 _offSet,Transform _closetEnemy, bool _canDuplicateClone, float _possibilityOfDuplicateClone,Player _player)  //该函数在Clone_Skill中被调用了
+    public void SetUpClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 _offSet,Transform _closetEnemy, bool _canDuplicateClone, float _possibilityOfDuplicateClone,Player _player,float _attackMultiplier)  //该函数在Clone_Skill中被调用了
     {
         if (canAttack)
         {
@@ -56,6 +57,7 @@ public class Clone_Skill_Controller : MonoBehaviour
         CanDuplicateClone = _canDuplicateClone;
         PossibilityToDuplicateClone = _possibilityOfDuplicateClone;
         player = _player;
+        attackMultiplier = _attackMultiplier;
 
         FaceClosetTarget();  //用于克隆体幻影攻击敌人时的朝向
         AttackTrigger();
@@ -77,9 +79,20 @@ public class Clone_Skill_Controller : MonoBehaviour
             if (hit.GetComponent<Enemy>() != null)
             {
                 //hit.GetComponent<Enemy>().DamageImpact();  //该语句换为下一句
-                player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+                //player.stats.DoDamage(hit.GetComponent<CharacterStats>());//该语句换为以下
 
-                if (CanDuplicateClone)
+                PlayerStats playerStats = player.GetComponent<PlayerStats>();
+                EnemyStats enemyStats = hit.GetComponent<EnemyStats>();
+
+                playerStats.CloneDoDamage(enemyStats, attackMultiplier); //专属于幻象的攻击，该伤害不会高于本体的伤害
+
+                if (player.skillManager.Clone.canApplyOnHitEffect)//幻象可以使用武器的专属特效
+                {
+                    Inventory.Instance.GetTypeOfEquipment(EquipmentType.Weapon)?.Effect(hit.transform);
+                }
+
+
+                if (CanDuplicateClone)  // 有几率召唤多个幻象
                 {
                     if (Random.Range(0, 100) < PossibilityToDuplicateClone)
                     {

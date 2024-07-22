@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements.Experimental;
 
 public class Crystal_Skill : Skill
@@ -11,14 +13,22 @@ public class Crystal_Skill : Skill
 
     [SerializeField]public float CrystalDuration;
 
+    [Header("Crystal Simple")]
+    [SerializeField] public UI_SkillTreeSlot unlockCrystalButton;
+    public bool crystalUnlocked;
+
 
     [Header("Explosive Crystal")]
     [SerializeField] public bool CanExplode;
+    [SerializeField] public UI_SkillTreeSlot unlockExplosiveCrystalButton;
+
 
 
     [Header("Moving Crystal")]
     [SerializeField] private bool CanMoveToEnemy;
     [SerializeField] private float MoveSpeed;
+    [SerializeField] public UI_SkillTreeSlot unlockMovingCrystalButton;
+
 
     [Header("Multi Crystal")]
     [SerializeField] public bool CanUseMulti;
@@ -26,9 +36,70 @@ public class Crystal_Skill : Skill
     [SerializeField] public float MultiCrystalCoolDown;
     [SerializeField] public float UseTimeWindow;
     [SerializeField] public List<GameObject> CrystalLeft = new List<GameObject>();
+    [SerializeField] public UI_SkillTreeSlot unlockMultiCrystalButton;
+
 
     [Header("Crystal Mirage")]
+    [SerializeField] public UI_SkillTreeSlot unlockCloneInsteadCrystalButton;
     [SerializeField] private bool CloneInsteadCrystal;
+
+
+    public override void Start()
+    {
+        base.Start();
+        unlockCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockCrystal);
+        unlockExplosiveCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockExplosiveCrystal);
+        unlockCloneInsteadCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockCLoneInsteadCrystal);
+        unlockMovingCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockMovingCrystal);
+        unlockMultiCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockMultiCrystal);
+
+    }
+
+
+    #region unlock skills
+    public void UnlockCrystal()
+    {
+        if (unlockCrystalButton.unlocked)
+        {
+            crystalUnlocked = true;
+        }
+    }
+
+    public void UnlockExplosiveCrystal()
+    {
+        if (unlockExplosiveCrystalButton.unlocked)
+        {
+            CanExplode = true;
+        }
+    }
+
+    public void UnlockCLoneInsteadCrystal()
+    {
+        if (unlockCloneInsteadCrystalButton.unlocked)
+        { 
+            CloneInsteadCrystal = true;
+        }
+    }
+
+
+    public void UnlockMovingCrystal()
+    {
+        if (unlockMovingCrystalButton.unlocked)
+        {
+            CanMoveToEnemy = true;
+        }
+    }
+
+
+    public void UnlockMultiCrystal()
+    {
+        if (unlockMultiCrystalButton.unlocked)
+        {
+            CanUseMulti = true;
+        }
+    }
+    #endregion
+
 
 
 

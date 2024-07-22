@@ -14,6 +14,8 @@ public class SkillManager : MonoBehaviour
     public Sword_Skill Sword;
     public BlackHole_Skill BlackHole;
     public Crystal_Skill Crystal;
+    public Parry_Skill Parry;
+    public Dodge_Skill Dodge;
 
 
 
@@ -37,6 +39,8 @@ public class SkillManager : MonoBehaviour
         Sword = GetComponent<Sword_Skill>();
         BlackHole = GetComponent<BlackHole_Skill>();
         Crystal = GetComponent<Crystal_Skill>();
+        Parry = GetComponent<Parry_Skill>();
+        Dodge = GetComponent<Dodge_Skill>();
 
 
         player = PlayerManager.instance.player;

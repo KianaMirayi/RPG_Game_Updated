@@ -133,7 +133,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         }
     }
 
-    private void SpinLogic()
+    private void SpinLogic()  //旋转剑逻辑
     {
         if (isSpin)
         {
@@ -168,6 +168,16 @@ public class Sword_Skill_Controller : MonoBehaviour
                     //hit.GetComponent<Enemy>().DamageImpact();
                     player.stats.DoDamage(hit.GetComponent<CharacterStats>());
 
+                    if (player.skillManager.Sword.SlowUnlocked)//解锁迟缓时，是敌人的移动速度减缓
+                    {
+                        hit.GetComponent<Enemy>().SLowEnemy();
+                    }
+
+                    if (player.skillManager.Sword.VulnerableUnlocked) // 当解锁脆弱时，使敌人受到的伤害提高
+                    {
+                        hit.GetComponent<Enemy>().GetComponent<EnemyStats>().MakeVulnerableFor(2);
+                    }
+
                     ItemData_Equipment equipAmulet = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Amulet);  //当装备上帝护身符时
 
                     if (equipAmulet != null)
@@ -186,7 +196,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         SpinTimer = SpinDuration;
     }
 
-    private void BounceLogic()
+    private void BounceLogic()  //弹跳剑逻辑
     {
         if (IsBouncing && EnemyTarget.Count > 0)
         {
@@ -198,6 +208,15 @@ public class Sword_Skill_Controller : MonoBehaviour
 
                 EnemyTarget[TargetIndex].GetComponent<Enemy>().stats.DoDamage(EnemyTarget[TargetIndex].GetComponent<CharacterStats>());//这么写对不对啊
 
+                if (player.skillManager.Sword.SlowUnlocked)  //解锁迟缓时，是敌人的移动速度减缓
+                {
+                    EnemyTarget[TargetIndex].GetComponent<Enemy>().SLowEnemy();
+                }
+
+                if(player.skillManager.Sword.VulnerableUnlocked) // 当解锁脆弱时，使敌人受到的伤害提高
+                {
+                    EnemyTarget[TargetIndex].GetComponent<Enemy>().GetComponent<EnemyStats>().MakeVulnerableFor(2);
+                }
 
                 ItemData_Equipment equipAmulet = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Amulet);  //当装备上帝护身符时
 
@@ -224,7 +243,7 @@ public class Sword_Skill_Controller : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision) // 当另一个碰撞器2D进入了触发器，则调用OnTriggerEnter2D
+    private void OnTriggerEnter2D(Collider2D collision) // 当另一个碰撞器2D进入了触发器，则调用OnTriggerEnter2D  普通剑和穿刺剑逻辑
     {
         if (IsReturning)
         {
@@ -250,6 +269,17 @@ public class Sword_Skill_Controller : MonoBehaviour
             }
 
             collision.GetComponent<Enemy>().stats.DoDamage(collision.GetComponent<CharacterStats>());
+
+            if (player.skillManager.Sword.SlowUnlocked)//解锁迟缓时，是敌人的移动速度减缓
+            {
+                collision.GetComponent<Enemy>().SLowEnemy();
+            }
+
+            if (player.skillManager.Sword.VulnerableUnlocked) // 当解锁脆弱时，使敌人受到的伤害提高
+            {
+                collision.GetComponent<Enemy>().GetComponent<EnemyStats>().MakeVulnerableFor(2);
+            }
+
             ItemData_Equipment equipAmulet = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Amulet);
 
             if (equipAmulet != null)
@@ -261,7 +291,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         StuckInto(collision);
     }
 
-    private void StuckInto(Collider2D collision)
+    private void StuckInto(Collider2D collision)  //穿刺剑和常规剑
     {
         if (AmountOfPirece > 0 && collision.GetComponent<Enemy>() != null)
         { 
