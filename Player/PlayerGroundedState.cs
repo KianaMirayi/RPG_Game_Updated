@@ -36,7 +36,7 @@ public class PlayerGroundedState : PlayerState
             stateMachine.changeState(player.AimSwordState);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && player.skillManager.Parry.parryUnlocked) //格挡反击技能,当解锁该技能时才可使用
+        if (Input.GetKeyDown(KeyCode.Q) && player.skillManager.Parry.parryUnlocked && player.skillManager.Parry.CoolDownTimer <= 0) //格挡反击技能,当解锁该技能时才可使用
         {
             stateMachine.changeState(player.counterAttackState);
         }
