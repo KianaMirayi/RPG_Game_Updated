@@ -98,29 +98,29 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler,IPointerEnterHandl
         Vector2 mousePosition = Input.mousePosition;
         //Debug.Log(mousePosition);
 
-        float xOffset = 0;
-        float yOffset = 0;
+        //float xOffset = 0;
+        //float yOffset = 0;
 
-        if (mousePosition.x > 600)
-        {
-            xOffset = -250;
-        }
-        else
-        {
-            xOffset = 250;
-        }
+        //if (mousePosition.x > 600)
+        //{
+        //    xOffset = -250;
+        //}
+        //else
+        //{
+        //    xOffset = 250;
+        //}
 
-        if (mousePosition.y > 500)
-        {
-            yOffset = -100;
-        }
-        else
-        {
-            yOffset = 135;
-        }
+        //if (mousePosition.y > 500)
+        //{
+        //    yOffset = -100;
+        //}
+        //else
+        //{
+        //    yOffset = 135;
+        //}
 
         ui.itemDescription.ShowItemDescription(item.data as ItemData_Equipment);
-        ui.itemDescription.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
+        //ui.itemDescription.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
         //ui.itemDescription.ShowItemStory(itemData_Equipment);
         
 
