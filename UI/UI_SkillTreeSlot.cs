@@ -20,7 +20,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] private UI_SkillTreeSlot[] shouldBeUnlocked;
     [SerializeField] private UI_SkillTreeSlot[] shouldBeLocked;
 
-    [SerializeField] private int SkillPrice;  //货币系统，用于解锁技能，接入玩家管理器
+    [SerializeField] private int SkillCost;  //货币系统，用于解锁技能，接入玩家管理器
 
 
     public void OnValidate()
@@ -47,7 +47,7 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void UnLockSkillSlot()
     {
-        if (PlayerManager.instance.HaveEnoughMoney(SkillPrice))
+        if (PlayerManager.instance.HaveEnoughMoney(SkillCost))
         {
             for (int i = 0; i < shouldBeUnlocked.Length; i++)  //应该被解锁的没有解锁
             {
@@ -77,33 +77,33 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ui.skillDescription.ShowDescripton(skillDescription,skillName);
+        ui.skillDescription.ShowDescripton(skillDescription,skillName,SkillCost);
 
-        Vector2 mousePosition = Input.mousePosition;
-        //Debug.Log(mousePosition);
+        //Vector2 mousePosition = Input.mousePosition;
+        ////Debug.Log(mousePosition);
 
-        float xOffset = 0;
-        float yOffset = 0;
+        //float xOffset = 0;
+        //float yOffset = 0;
 
-        if (mousePosition.x > 500)
-        {
-            xOffset = -350;
-        }
-        else
-        {
-            xOffset = 350;
-        }
+        //if (mousePosition.x > 500)
+        //{
+        //    xOffset = -350;
+        //}
+        //else
+        //{
+        //    xOffset = 350;
+        //}
 
-        if (mousePosition.y > 500)
-        {
-            yOffset = -250;
-        }
-        else
-        {
-            yOffset = 250;
-        }
+        //if (mousePosition.y > 500)
+        //{
+        //    yOffset = -250;
+        //}
+        //else
+        //{
+        //    yOffset = 250;
+        //}
 
-        ui.skillDescription.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset); // 鼠标进入时界面适应鼠标位置
+        //ui.skillDescription.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset); // 鼠标进入时界面适应鼠标位置
 
     }
 

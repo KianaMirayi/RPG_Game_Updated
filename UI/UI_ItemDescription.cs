@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UI_ItemDescription : MonoBehaviour
+public class UI_ItemDescription : UI_ToolTip
 {
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemTypeText;
     [SerializeField] private TextMeshProUGUI itemDescription;
     [SerializeField] private TextMeshProUGUI itemStory;
 
-    [SerializeField] private int DefaultFontSize = 28;
+    [SerializeField] private int DefaultItemNameFontSize = 28;
+    [SerializeField] private int DefaulrItemDescriptonFontSize = 24;
+
 
     private ItemData_Equipment itemData_Equipment;
 
@@ -61,15 +63,19 @@ public class UI_ItemDescription : MonoBehaviour
         }
         else
         {
-            itemNameText.fontSize = DefaultFontSize; //28为unity中手动设置的字体大小
+            itemNameText.fontSize = DefaultItemNameFontSize; //28为unity中手动设置的字体大小
         }
+
+        AdjustFontSize(itemDescription);
+        AdjustPositionForDescription();
 
         gameObject.SetActive(true);
     }
 
     public void HideItemDescription()
     {
-        itemNameText.fontSize = DefaultFontSize;
+        itemNameText.fontSize = DefaultItemNameFontSize;
+        itemDescription.fontSize = DefaulrItemDescriptonFontSize;
         gameObject.SetActive(false);
         
     }

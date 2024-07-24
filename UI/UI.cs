@@ -8,6 +8,7 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject SkillTreeUI;
     [SerializeField] private GameObject CraftUI;
     [SerializeField] private GameObject OptionsUI;
+    [SerializeField] private GameObject InGameUI;
 
     public UI_ItemDescription itemDescription;
     public UI_StatDescription statDescription;
@@ -24,6 +25,7 @@ public class UI : MonoBehaviour
     {
         //itemDescription = GetComponentInChildren<UI_ItemDescription>(); 
         SwitchTo(null);//设置开始游戏时没有角色UI界面
+        SwitchTo(InGameUI);
         itemDescription.gameObject.SetActive(false);
         statDescription.gameObject.SetActive(false);
 
@@ -75,6 +77,7 @@ public class UI : MonoBehaviour
         if (_menu != null && _menu.activeSelf)
         {
             _menu.SetActive(false);
+            ActiveInGameUI();
             return;
         }
 
@@ -82,7 +85,18 @@ public class UI : MonoBehaviour
     }
 
 
+    public void ActiveInGameUI()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeSelf)
+            {
+                return;
+            }
+        }
 
+        SwitchTo(InGameUI);
+    }
 
 
 }
