@@ -21,7 +21,7 @@ public class Skill : MonoBehaviour
 
     public virtual bool CanUseSkill()
     {
-        if (CoolDownTimer < 0)  //当技能释放后
+        if (CoolDownTimer <= 0)  //当技能释放后
         {
             UseSkill();  // 调用技能
             CoolDownTimer = CoolDown;  //计时器重置

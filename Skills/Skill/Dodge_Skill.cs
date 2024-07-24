@@ -30,7 +30,7 @@ public class Dodge_Skill : Skill
 
     public void UnlockDodge()
     { 
-        if (unlockDodgeButton.unlocked) //解锁闪避时增加角色的闪避值
+        if (unlockDodgeButton.unlocked && !DodgeUnlocked) //解锁闪避时增加角色的闪避值
         {
             player.stats.Evasion.AddModifier(EvasionAmount);
             Inventory.Instance.UpDateStatsUI();//将增加的闪避值更新至数据界面
