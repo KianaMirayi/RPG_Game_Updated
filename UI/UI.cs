@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UI : MonoBehaviour
@@ -9,6 +11,13 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject CraftUI;
     [SerializeField] private GameObject OptionsUI;
     [SerializeField] private GameObject InGameUI;
+    [Space]
+    [Header("End Screen")]
+    [SerializeField] public UI_FadeScreen FadeScreen;
+    [SerializeField] private GameObject EndText;
+    [SerializeField] private GameObject RestartButton;
+
+    [Space]
 
     public UI_ItemDescription itemDescription;
     public UI_StatDescription statDescription;
@@ -59,9 +68,18 @@ public class UI : MonoBehaviour
 
     public void SwitchTo(GameObject _menu)  //切换UI界面的不同菜单: 人物、技能、工坊、选项
     {
+       
         for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).gameObject.SetActive(false);  //遍历每一个该组件下的自组件
+            bool FadeScreen =transform.GetChild(i).GetComponent<UI_FadeScreen>() != null;  //当遍历组件至黑屏时避免黑屏
+
+
+            if (FadeScreen == false)
+            {
+                transform.GetChild(i).gameObject.SetActive(false);  //遍历每一个该组件下的自组件
+            }
+
+            
         }
 
         if (_menu != null)
@@ -98,5 +116,26 @@ public class UI : MonoBehaviour
         SwitchTo(InGameUI);
     }
 
+    public void SwitchOnEndScreen() //角色死亡时调用
+    { 
+        
+        FadeScreen.FadeOut();
+        StartCoroutine(EndScreenCoroutine());
 
+
+    }
+
+    IEnumerator EndScreenCoroutine()
+    { 
+        yield return new WaitForSeconds(1);
+        EndText.SetActive(true);
+        yield return new WaitForSeconds(2); // 一秒后显示重生
+        RestartButton.SetActive(true);
+
+    }
+
+    public void RestartGameButton() //重新开始游戏
+    { 
+        GameManager.instance.RestartScene();
+    }
 }

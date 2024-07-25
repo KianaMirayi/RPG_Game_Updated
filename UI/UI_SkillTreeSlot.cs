@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISaveManager
 {
     private UI ui;
     private Image SkillImage;
@@ -40,8 +41,12 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         SkillImage.color = lockedSkillColor;
 
-
         ui = GetComponentInParent<UI>();
+
+        if (unlocked) //若上局技能已解锁，则同步图标
+        {
+            SkillImage.color = Color.white;
+        }
     }
 
 
@@ -110,5 +115,31 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         ui.skillDescription.HideDescription();
+    }
+
+    public void LoadData(GameData _data)
+    {
+        //throw new System.NotImplementedException();
+        if (_data.skillTree.TryGetValue(skillName, out bool value)) //记录上局保存的技能情况，但不能从视觉上体现保存情况
+        {
+            unlocked = value;
+        }
+
+
+        Debug.Log("上局技能已加载");
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        //throw new System.NotImplementedException();
+        if (_data.skillTree.TryGetValue(skillName, out bool Value))
+        {
+            _data.skillTree.Remove(skillName);
+            _data.skillTree.Add(skillName, unlocked);
+        }
+        else
+        {
+            _data.skillTree.Add(skillName, unlocked);
+        }
     }
 }
