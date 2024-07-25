@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.EditorUtilities;
+using UnityEditor;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, ISaveManager
 {
     public static Inventory Instance;
 
@@ -36,6 +37,15 @@ public class Inventory : MonoBehaviour
 
     public  float FlaskCoolDown { get; private set; }
     private float ArmorCoolDown;
+
+    [Header("Data Base")]
+    //public string[] assetName;
+    //private List<ItemData> ItemDataBase;
+    public List<InventoryItem> loadedItems;
+    public List<ItemData_Equipment> loadedEquipment;
+
+
+
 
     private void Awake()
     {
@@ -73,6 +83,30 @@ public class Inventory : MonoBehaviour
 
     private void AddStartingItem()  //初始装备
     {
+
+        foreach (ItemData_Equipment item in loadedEquipment)
+        { 
+            EquipItem(item);
+        }
+
+
+
+        if (loadedItems.Count > 0) //将保存的装备填入装备中而不是填入初始装备
+        {
+            foreach (InventoryItem item in loadedItems)
+            {
+                for (int i = 0; i < item.StackSize; i++)
+                {
+                    AddItem(item.data);
+                }
+            }
+
+            return;
+        }
+
+
+
+
         for (int i = 0; i < StartingEquipment.Count; i++)
         {
             if (StartingEquipment[i] != null)  //避免填充初始装备时没有指定具体的装备
@@ -359,6 +393,79 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+
+
+    public void LoadData(GameData _data)
+    {
+        //throw new System.NotImplementedException();
+        //GetItemDataBase();
+
+        foreach (KeyValuePair<string, int> pair in _data.inventory) //遍历每一个inventory中的键值对
+        {
+            foreach (var item in GetItemDataBase())  //遍历每一个储起来的装备
+            {
+                if (item != null && item.ItemID == pair.Key)
+                {
+                    InventoryItem itemToLoad = new InventoryItem(item);
+                    itemToLoad.StackSize = pair.Value;
+
+                    loadedItems.Add(itemToLoad);
+                }
+            }
+        }
+
+        foreach (string loadedItemID in _data.equipmentID)
+        {
+            foreach (var item in GetItemDataBase())
+            {
+                if (item != null && loadedItemID == item.ItemID)
+                {
+                    loadedEquipment.Add(item as ItemData_Equipment);
+                }
+            }
+        }
+
+        Debug.Log("上局物品已加载");
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        //throw new System.NotImplementedException();
+
+        _data.inventory.Clear();
+        _data.equipmentID.Clear();
+
+        foreach (KeyValuePair<ItemData, InventoryItem> pair in inventoryDictionary) //保存装备物品栏
+        {
+            _data.inventory.Add(pair.Key.ItemID, pair.Value.StackSize);
+        }
+
+        foreach (KeyValuePair<ItemData, InventoryItem> pair in stashDictionary)//保存物品材料栏
+        {
+            _data.inventory.Add(pair.Key.ItemID, pair.Value.StackSize);
+        }
+
+        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> pair in equipmentDictionary) //保存角色装备栏
+        {
+            _data.equipmentID.Add(pair.Key.ItemID);
+        }
+
+    }
+
+    private List<ItemData> GetItemDataBase()
+    {
+        List<ItemData> ItemDataBase = new List<ItemData>();
+        string[] assetNames = AssetDatabase.FindAssets("", new[] { "Assets/Scripts/Item and Inventory/Items" });//该路径为游戏目录内存放装备的路径
+
+        foreach (string SorName in assetNames)
+        { 
+            var SorPath = AssetDatabase.GUIDToAssetPath(SorName);
+            var itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SorPath);
+            ItemDataBase.Add(itemData);
+        }
+
+        return ItemDataBase;
+    }
 
 
 }

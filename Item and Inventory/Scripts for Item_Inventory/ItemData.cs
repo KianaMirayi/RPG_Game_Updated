@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -15,6 +16,7 @@ public class ItemData :ScriptableObject
     public ItemType ItemType;
     public string ItemName;
     public Sprite Icon;
+    public string ItemID;
 
     [Range(0,100)]
     public float dropChance;
@@ -22,6 +24,13 @@ public class ItemData :ScriptableObject
 
     protected StringBuilder builder = new StringBuilder();
 
+    private void OnValidate()
+    {
+#if UNITY_EDITOR  //分配ID给每一个unity中的资产
+        string path = AssetDatabase.GetAssetPath(this);
+        ItemID = AssetDatabase.AssetPathToGUID(path);
+#endif
+    }
 
     public virtual string GetDescription()
     {
