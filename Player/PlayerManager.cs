@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour, ISaveManager
 {
-    public static PlayerManager instance;  //实例化类本身，并赋予静态属性，保持实例化全局仅有一个该实例
+    public static PlayerManager instance;  //单例模式,实例化类本身，并赋予静态属性，保持实例化全局仅有一个该实例
 
     public Player player;  // 创建Player类成员，这样可以提供全局通过代码访问该类
 
@@ -35,4 +35,16 @@ public class PlayerManager : MonoBehaviour
     }
 
     public int GetCurrentCurrency() => Currency;
+
+
+
+    public void LoadData(GameData _data) //加载游戏时将保存的金币数赋给当前游戏
+    {
+        Currency = _data.currency;
+    }
+
+    public void SaveData(ref GameData _data)  //保存游戏时将现有的金币数保存给GamData
+    {
+        _data.currency = Currency;
+    }
 }
