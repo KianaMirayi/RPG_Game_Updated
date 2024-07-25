@@ -43,7 +43,7 @@ public class SaveManager : MonoBehaviour
     }
 
     [ContextMenu("Delete saved file")]
-    private void DeleteAndSaveData()  //在该脚本右键菜单添加删除已保存的游戏数据功能
+    public void DeleteSavedData()  //在该脚本右键菜单添加删除已保存的游戏数据功能
     {
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
         dataHandler.Delete();
@@ -61,8 +61,6 @@ public class SaveManager : MonoBehaviour
     {
         // gameData = data from dataHandler
         gameData = dataHandler.Load();
-
-
 
 
         if (this.gameData == null)
@@ -110,5 +108,17 @@ public class SaveManager : MonoBehaviour
 
         return new List<ISaveManager>(saveManagers);
     }
+
+    public bool HasSavedData() // 在没有找到保存的游戏数据时隐藏“继续游戏”按钮
+    {
+        if (dataHandler.Load() != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
 
 }
