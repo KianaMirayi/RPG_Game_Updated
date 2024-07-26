@@ -10,6 +10,7 @@ public class ThunderStrike_Effect : ItemEffect
     public override void ExcuteEffect(Transform _enemyPosition)
     {
         GameObject newThunderStrike = Instantiate(ThunderStrikePrefab, _enemyPosition.position,Quaternion.identity);
+        AudioManager.instance.PlaySfx(37,null);//À×µçµÄÅÐ·£ÒôÐ§
 
         Destroy(newThunderStrike, 0.5f);
     }

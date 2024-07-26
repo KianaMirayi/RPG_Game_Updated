@@ -46,6 +46,7 @@ public class ItemObject : MonoBehaviour
             return;
         }
 
+        AudioManager.instance.PlaySfx(18,transform);
         Inventory.Instance.AddItem(itemData);
         Destroy(gameObject);
     }
