@@ -16,7 +16,11 @@ public class UI_UIInGame : MonoBehaviour
     [SerializeField] private Image SwordImage;
     [SerializeField] private Image BlackHoleImage;
     [SerializeField] private Image FlaskImage;
+
+    [Header("Souls info")]
     [SerializeField] private TextMeshProUGUI CurrentCurrency;
+    [SerializeField] private float soulsAmount;
+    [SerializeField] private float increaseRate = 100;
 
     
 
@@ -43,33 +47,33 @@ public class UI_UIInGame : MonoBehaviour
         {
             SetCoolDown(dashImage);
         }
-        
+
 
 
         if (Input.GetKeyDown(KeyCode.Q) && skills.Parry.parryUnlocked) //∏Òµ≤¿‰»¥Õº±Í
         {
             SetCoolDown(ParryImage);
         }
-        
+
 
 
         if (Input.GetKeyDown(KeyCode.E) && skills.Crystal.crystalUnlocked) //ÀÆæß¿‰»¥Õº±Í
         {
             SetCoolDown(CrystalImage);
         }
-        
+
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && skills.Sword.RegularSwordUnlocked) //Ω£¿‰»¥Õº±Í
         {
             SetCoolDown(SwordImage);
         }
-        
+
 
         if (Input.GetKeyDown(KeyCode.R) && skills.BlackHole.BlackHoleUnlocked)//¥Û’–¿‰»¥Õº±Í
         {
             SetCoolDown(BlackHoleImage);
         }
-        
+
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && Inventory.Instance.GetTypeOfEquipment(EquipmentType.Flask) != null) //“©ÀÆ¿‰»¥Õº±Í
         {
@@ -84,15 +88,24 @@ public class UI_UIInGame : MonoBehaviour
         CheckCoolDownOf(BlackHoleImage, skills.BlackHole.CoolDown);
         CheckCoolDownOf(FlaskImage, Inventory.Instance.FlaskCoolDown);
 
-
-
-
-        CurrentCurrency.text = PlayerManager.instance.GetCurrentCurrency().ToString("#,#");
-
+        UpdateSoulsUI();
 
     }
 
+    private void UpdateSoulsUI()
+    {
+        if (soulsAmount < PlayerManager.instance.GetCurrentCurrency())
+        {
+            soulsAmount += Time.deltaTime * increaseRate;
+        }
+        else
+        {
+            soulsAmount = PlayerManager.instance.GetCurrentCurrency();
+        }
 
+
+        CurrentCurrency.text = ((int)soulsAmount).ToString();
+    }
 
     private void UpdateHpUI()
     {

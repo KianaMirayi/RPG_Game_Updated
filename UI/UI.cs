@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class UI : MonoBehaviour
+public class UI : MonoBehaviour,ISaveManager
 {
     [SerializeField] private GameObject CharacterUI;
     [SerializeField] private GameObject SkillTreeUI;
@@ -24,6 +25,7 @@ public class UI : MonoBehaviour
     public UI_CraftWindow craftWindow;
     public UI_SkillDescription skillDescription;
 
+    [SerializeField] private UI_VolumeSlider[] volumeSettings;
     private void Awake()
     {
         SwitchTo(SkillTreeUI);  //在分配技能给技能UI之前先启用技能UI
@@ -83,7 +85,9 @@ public class UI : MonoBehaviour
         }
 
         if (_menu != null)
-        { 
+        {
+            AudioManager.instance.PlaySfx(7, null);
+
             _menu.SetActive(true);  //当鼠标点击特定菜单后将激活该菜单
         }
 
@@ -107,7 +111,7 @@ public class UI : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).gameObject.activeSelf)
+            if (transform.GetChild(i).gameObject.activeSelf && transform.GetChild(i).GetComponent<UI_FadeScreen>() == null)
             {
                 return;
             }
@@ -137,5 +141,29 @@ public class UI : MonoBehaviour
     public void RestartGameButton() //重新开始游戏
     { 
         GameManager.instance.RestartScene();
+    }
+
+    public void LoadData(GameData _data)
+    {
+        foreach (KeyValuePair<string, float> pair in _data.volumeSettings)
+        {
+            foreach (UI_VolumeSlider item in volumeSettings)
+            {
+                if (item.paramater == pair.Key)
+                {
+                    item.LoadSlider(pair.Value);
+                }
+            }
+        }
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.volumeSettings.Clear();
+
+        foreach (UI_VolumeSlider item in volumeSettings)
+        {
+            _data.volumeSettings.Add(item.paramater, item.slider.value);
+        }
     }
 }
