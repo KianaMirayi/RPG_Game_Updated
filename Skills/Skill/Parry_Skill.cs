@@ -43,6 +43,14 @@ public class Parry_Skill : Skill
 
     }
 
+    protected override void CheckLoadedSkillUnlock()
+    {
+        UnlockParry();
+        UnlockRestore();
+        UnlockParryWithMirage();
+    }
+
+    #region Unlock Skills
 
     public void UnlockParry()
     { 
@@ -67,6 +75,8 @@ public class Parry_Skill : Skill
             parryWithMirageUnlocked = true;
         }
     }
+
+    #endregion
 
     public void CreateMirageOnParry(Transform _respwanTransform)  //‘ –Ì’ŸªΩª√œÛ
     {

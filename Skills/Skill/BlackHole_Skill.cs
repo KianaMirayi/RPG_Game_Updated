@@ -36,6 +36,11 @@ public class BlackHole_Skill : Skill
         base.Update();
     }
 
+    protected override void CheckLoadedSkillUnlock() // 同步上局技能解锁情况
+    {
+        UnlockBlackHole();
+    }
+
     public void UnlockBlackHole()
     {
         if (UnlockBlackHoleButton.unlocked)
@@ -51,13 +56,17 @@ public class BlackHole_Skill : Skill
 
     public override void UseSkill()
     {
+        base.UseSkill();
+
+
         GameObject newBlackHole = Instantiate(BlackHolePrefab, player.transform.position,Quaternion.identity);
 
         CurrentBlackHole = newBlackHole.GetComponent<BlackHole_Skill_Controller>();
 
         CurrentBlackHole.SetUpBlackHole(MaxSize, MinSize, GrowSpeed,CanGrow, CountOfAttacks,  CloneAttackCoolDown,BlackHoleDuration);
 
-        base.UseSkill();
+        //AudioManager.instance.PlaySfx(,player.transform);在这里放角色大招的音效
+        
     }
 
     public bool BlackHoleSkillCompleted()

@@ -37,7 +37,15 @@ public class Dash_Skill : Skill
         cloneOnArrivalUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCloneOnArrival);
     }
 
+    
+    protected override void CheckLoadedSkillUnlock()
+    {
+        UnlockDash();
+        UnlockCloneOnDash();
+        UnlockCloneOnArrival();
+    }
 
+    #region Unlock Skills
     public void UnlockDash()
     {
         //Debug.Log("Try to Unlock Dash");
@@ -68,6 +76,7 @@ public class Dash_Skill : Skill
         }
     }
 
+    #endregion
 
     public void CreateCloneOnDash()
     {

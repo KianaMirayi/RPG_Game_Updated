@@ -49,10 +49,19 @@ public class Crystal_Skill : Skill
         base.Start();
         unlockCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockCrystal);
         unlockExplosiveCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockExplosiveCrystal);
-        unlockCloneInsteadCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockCLoneInsteadCrystal);
+        unlockCloneInsteadCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockCloneInsteadCrystal);
         unlockMovingCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockMovingCrystal);
         unlockMultiCrystalButton.GetComponent<Button>().onClick.AddListener(UnlockMultiCrystal);
 
+    }
+
+    protected override void CheckLoadedSkillUnlock()
+    {
+        UnlockCrystal();
+        UnlockExplosiveCrystal();
+        UnlockCloneInsteadCrystal();
+        UnlockMovingCrystal();
+        UnlockMultiCrystal();
     }
 
 
@@ -73,7 +82,7 @@ public class Crystal_Skill : Skill
         }
     }
 
-    public void UnlockCLoneInsteadCrystal()
+    public void UnlockCloneInsteadCrystal()
     {
         if (unlockCloneInsteadCrystalButton.unlocked)
         { 

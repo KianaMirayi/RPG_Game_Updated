@@ -28,6 +28,12 @@ public class Dodge_Skill : Skill
         unlockDodgeMirageButton.GetComponent<Button>().onClick.AddListener(UnlockDodgeMirage);
     }
 
+    protected override void CheckLoadedSkillUnlock()
+    {
+        UnlockDodge();
+        UnlockDodgeMirage();
+    }
+
     public void UnlockDodge()
     { 
         if (unlockDodgeButton.unlocked && !DodgeUnlocked) //解锁闪避时增加角色的闪避值

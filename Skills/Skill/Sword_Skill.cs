@@ -97,6 +97,8 @@ public class Sword_Skill : Skill
         }
     }
 
+   
+
 
     #region Skill Unlock
 
@@ -154,6 +156,16 @@ public class Sword_Skill : Skill
 
 
     #endregion
+
+    protected override void CheckLoadedSkillUnlock()
+    {
+        UnlockRegularSword();
+        UnlockBounceSowrd();
+        UnlockPireceSword();
+        UnlockSpinSword();
+        UnlockSlow();
+        UnlockVulnerable();
+    }
 
     public void CreatSword()  //这里实现对Sword_Skill_Controller脚本的访问
     {
