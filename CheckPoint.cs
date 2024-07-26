@@ -30,6 +30,12 @@ public class CheckPoint : MonoBehaviour
     }
     public void ActiveCheckPoint()
     {
+        if (activationStaus == false)
+        {
+            AudioManager.instance.PlaySfx(5, transform);
+        }
+
+        
         activationStaus = true;
         anim.SetBool("Active", true);
     }
