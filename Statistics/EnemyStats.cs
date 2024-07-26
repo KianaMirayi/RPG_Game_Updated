@@ -6,6 +6,7 @@ public class EnemyStats : CharacterStats
 {
     public Enemy Enemy;
     public ItemDrop DropSystem;
+    public Stats soulsDropAmount;
 
     [Header("Level Detail")]
     [SerializeField] private int level = 1;  //敌人的等级
@@ -15,10 +16,10 @@ public class EnemyStats : CharacterStats
 
     public override void Start()
     {
+        soulsDropAmount.SetDefaultValue(100);//必须在等级前加载！！
         ApplyLevelModifier();//敌人的生命值随等级增加而不断增加
 
         base.Start();
-
         Enemy = GetComponent<Enemy>();
         DropSystem = GetComponent<ItemDrop>();
     }
@@ -42,6 +43,8 @@ public class EnemyStats : CharacterStats
         Modify(FireDamage);
         Modify(IceDamage);
         Modify(LightingDamage);
+
+        Modify(soulsDropAmount);
 
     }
 
@@ -74,6 +77,7 @@ public class EnemyStats : CharacterStats
 
         Enemy.Die();
 
+        PlayerManager.instance.Currency += soulsDropAmount.GetValue();
         DropSystem.GenerateDrop();
     }
 }
