@@ -6,6 +6,8 @@ public class PlayerAnimationTriggers : MonoBehaviour
 {
     public Player player => GetComponentInParent<Player>();
 
+    public PlayerPrimaryAttackState primaryAttack;
+
     private void AnimationTrigger()
     {
         player.AnimationTrigger();
@@ -13,6 +15,11 @@ public class PlayerAnimationTriggers : MonoBehaviour
 
     private void AttackTrigger()
     {
+        //角色自身发出的音效可以在动画触发器中做
+        
+
+        //AudioManager.instance.PlaySfx(2,null); 
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
 
         foreach (var hit in colliders)

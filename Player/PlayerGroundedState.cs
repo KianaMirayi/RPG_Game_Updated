@@ -26,6 +26,10 @@ public class PlayerGroundedState : PlayerState
 
         if (Input.GetKeyDown(KeyCode.R) && player.skillManager.BlackHole.BlackHoleUnlocked)  //´óÕÐºÚ¶´
         {
+            if (player.skillManager.BlackHole.CoolDownTimer > 0)
+            { 
+                return;
+            }
 
             stateMachine.changeState(player.BlackHoleState);
             SkillManager.SkillInstance.BlackHole.CanGrow = true;

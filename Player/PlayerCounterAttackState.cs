@@ -36,6 +36,8 @@ public class PlayerCounterAttackState : PlayerState
                 if (hit.GetComponent<Enemy>().CanbeStunned()) // 当检测敌人可以受到弹反伤害
                 {
                     stateTimer = 1;
+                    AudioManager.instance.PlaySfx(40, player.transform); //播放弹反成功音效
+
                     player.anim.SetBool("SuccessfullyCounterAttack", true);  //播放成功弹反的动画
 
                     player.skillManager.Parry.UseSkill();//弹反成功时回复生命值

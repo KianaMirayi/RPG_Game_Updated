@@ -17,12 +17,31 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Enter();
 
+        
+
         //var dashState = player.dashState as PlayerDashState;
 
         if (comboCounter > 2 || Time.time > lastTimeAttacked + comboableWindow)
         {
             comboCounter = 0;
         }
+
+        if (comboCounter == 0)
+        {
+            //播放普通攻击第一段 
+            AudioManager.instance.PlaySfx(41,null);
+        }
+        if (comboCounter == 1)
+        {
+            //播放普通攻击第二段
+            AudioManager.instance.PlaySfx(39, null);
+        }
+        if (comboCounter == 2)
+        {
+            //播放普通攻击第三段 
+            AudioManager.instance.PlaySfx(42,null);
+        }
+
 
         //Debug.Log(comboCounter);
 
