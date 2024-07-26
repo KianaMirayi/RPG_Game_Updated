@@ -27,6 +27,7 @@ public class SkeletonGroundState : EnemyState
 
         if (skeletonEnemy.IsPlayerDetected() || Vector2.Distance(skeletonEnemy.transform.position, player.position) < 2)  // 同方向远距离检测到玩家时，以及在身后短距离检测到玩家时进入战斗状态
         {
+
             enemyStateMachine.changeState(skeletonEnemy.skeletonBattleState);
         }
     }
