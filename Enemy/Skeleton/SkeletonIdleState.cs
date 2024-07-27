@@ -25,7 +25,7 @@ public class SkeletonIdleState : SkeletonGroundState
 
         if (stateTimer < 0)
         {
-            enemyStateMachine.changeState(skeletonEnemy.skeMoveState);
+            enemyStateMachine.changeState(skeletonEnemy.skeletonMoveState);
             //Debug.Log("Switching to Move state");
         }
         

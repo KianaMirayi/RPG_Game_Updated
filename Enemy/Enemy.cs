@@ -20,6 +20,8 @@ public class Enemy : Entity
     [Header("Attack info")]
     public float attackDistance;
     public float enemyAttackCoolDown;
+    public float enemyMaxAttackCoolDown;
+    public float enemyMinAttackCoolDown;
     public float enemyLastAttacked;
 
     [Header("Stunned info")]

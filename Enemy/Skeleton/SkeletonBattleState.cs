@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class SkeletonBattleState : EnemyState
@@ -20,7 +21,12 @@ public class SkeletonBattleState : EnemyState
 
         //player = GameObject.Find("Player").transform;
 
-        player = PlayerManager.instance.player.transform; 
+        player = PlayerManager.instance.player.transform;
+
+        if (player.GetComponent<PlayerStats>().IsDead)
+        {
+            enemyStateMachine.changeState(skeletonEnemy.skeletonMoveState);
+        }
     }
     public override void Update()
     {
@@ -71,6 +77,7 @@ public class SkeletonBattleState : EnemyState
     {
         if (Time.time >= skeletonEnemy.enemyLastAttacked + skeletonEnemy.enemyAttackCoolDown)
         {
+            skeletonEnemy.enemyAttackCoolDown = Random.Range(skeletonEnemy.enemyMinAttackCoolDown, skeletonEnemy.enemyMaxAttackCoolDown); //¿ìÂýµ¶
             skeletonEnemy.enemyLastAttacked = Time.time;
             return true;
         }

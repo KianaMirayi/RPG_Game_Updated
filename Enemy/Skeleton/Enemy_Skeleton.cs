@@ -8,7 +8,7 @@ public class Enemy_Skeleton : Enemy
 {
     public SkeletonIdleState skeIdleState { get; private set; }
 
-    public SkeletonMoveState skeMoveState { get; private set; }
+    public SkeletonMoveState skeletonMoveState { get; private set; }
 
     public SkeletonBattleState skeletonBattleState { get; private set; }
 
@@ -24,7 +24,7 @@ public class Enemy_Skeleton : Enemy
 
         skeIdleState = new SkeletonIdleState(this, stateMachine, "Idle", this);
 
-        skeMoveState = new SkeletonMoveState(this, stateMachine, "Move", this);
+        skeletonMoveState = new SkeletonMoveState(this, stateMachine, "Move", this);
 
         skeletonBattleState = new SkeletonBattleState(this, stateMachine, "Move", this);// 战斗状态时移动调用moveState的动画
 
