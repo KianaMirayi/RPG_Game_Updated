@@ -2,6 +2,7 @@ using Autodesk.Fbx;
 using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -74,6 +75,8 @@ public class CharacterStats : MonoBehaviour
 
     public bool IsVulnerable;
 
+    public bool isInvincible; //无敌状态
+
     // Start is called before the first frame update
     public virtual void Start()
     {
@@ -141,14 +144,17 @@ public class CharacterStats : MonoBehaviour
     }
 
 
-    public virtual void DoDamage(CharacterStats _target)  //物理伤害
+    public virtual void DoDamage(CharacterStats _target)  //伤害
     {
+        bool criticalHit = false;
+
         if (TargetCanAvoidAttack(_target))
         {
             return;
         }
 
-        
+        _target.GetComponent<Entity>().SetUpKnockDir(transform);
+        Debug.Log("11111");
       
             int totalDamage = Damage.GetValue() + Strength.GetValue();  //总伤害 = 基础伤害 + 力量加点
 
@@ -157,12 +163,16 @@ public class CharacterStats : MonoBehaviour
                 //Debug.Log("Critical HIT");
                 totalDamage = CalculateCriticalDamage(totalDamage);
                 //Debug.Log("Total Critical Damage is" + totalDamage);
+
+                criticalHit = true;
             }
+
+        fx.GenerateHitFX(_target.transform,criticalHit);
 
             totalDamage = CheckTargetArmor(_target, totalDamage);
 
             _target.TakeDamage(totalDamage);
-            //DoMagicDamage(_target);
+            DoMagicDamage(_target);
         
 
 
@@ -436,7 +446,12 @@ public class CharacterStats : MonoBehaviour
     
 
     public virtual void TakeDamage(int _damage)  //受到伤害
-    { 
+    {
+        if (isInvincible) //无敌则免疫伤害
+        {
+            return;
+        }
+
         //CurrentHp -= _damage;
         DecreaseHpBy(_damage);
 
@@ -484,6 +499,20 @@ public class CharacterStats : MonoBehaviour
     public virtual void Die()
     {
         IsDead = true;
+    }
+
+
+    public void KillEntity()//进入死区死亡，而且得死透
+    {
+        if (!IsDead)
+        {
+            Die();
+        }
+    }
+
+    public void MakeInvincible(bool _invincible)
+    {
+        isInvincible = _invincible;
     }
 
     public bool CanCrit()  //计算暴击率

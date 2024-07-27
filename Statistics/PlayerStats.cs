@@ -32,6 +32,13 @@ public class PlayerStats : CharacterStats
     {
         base.DecreaseHpBy(_damage);
 
+        if (_damage > GetMaxHp() * 0.3f) //当角色受到大于自身最大生命值30%的伤害时
+        {
+            player.SetUpKnockBackPower(new Vector2(3, 3));
+            AudioManager.instance.PlaySfx(33, null);
+            Debug.Log("受到重伤");
+        }
+
         ItemData_Equipment currentArmor = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Armor);
 
         if (currentArmor != null)
