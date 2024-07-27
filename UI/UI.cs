@@ -91,6 +91,18 @@ public class UI : MonoBehaviour,ISaveManager
             _menu.SetActive(true);  //当鼠标点击特定菜单后将激活该菜单
         }
 
+        if (GameManager.instance != null)
+        {
+            if (_menu == InGameUI) //如果在游戏中
+            {
+                GameManager.instance.PauseGame(false);
+            }
+            else
+            {
+                GameManager.instance.PauseGame(true); //如果打开了任何面板
+            }
+        }
+
     }
 
 
