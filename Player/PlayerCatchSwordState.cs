@@ -15,6 +15,8 @@ public class PlayerCatchSwordState : PlayerState
 
         Sword = player.Sword.transform;
 
+        //kplayer.fx.PlayDustFX(); //抓住剑时特效
+
 
         if (player.transform.position.x > Sword.position.x && player.facingDir == 1)
         {

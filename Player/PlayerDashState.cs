@@ -13,6 +13,8 @@ public class PlayerDashState : PlayerState
     {
         base.Enter();
 
+
+
         dash = false;
 
         stateTimer = player.dashDuration;
@@ -21,6 +23,8 @@ public class PlayerDashState : PlayerState
         //player.skillManager.Clone.CreateClone(player.transform,Vector2.zero);
         //player.skillManager.Clone.CreateCloneOnDashBegin();
         player.skillManager.Dash.CreateCloneOnDash();
+
+        player.stats.MakeInvincible(true); //冲刺时玩家无敌
     }
 
     public override void Exit()
@@ -30,6 +34,8 @@ public class PlayerDashState : PlayerState
         //player.skillManager.Clone.CreateCloneOnDashOver();
         player.skillManager.Dash.CreateCloneOnArrival();
         player.setVelocity(0, rb.velocity.y);
+
+        player.stats.MakeInvincible(false); // 退出冲刺时无敌失效
     }
 
     public override void Update()

@@ -71,6 +71,7 @@ public class PlayerGroundedState : PlayerState
         }
 
         player.Sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
+        Debug.Log("55555");
         return false;
     }
 }

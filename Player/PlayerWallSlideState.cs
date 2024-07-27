@@ -22,6 +22,11 @@ public class PlayerWallSlideState : PlayerState
     {
         base.Update();
 
+        if (player.IsWallDetected() == false) //当玩家在滑墙中没有检测到墙壁时，则进入滞空状态
+        {
+            stateMachine.changeState(player.airState);
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))  //当检测到玩家按下空格键时，进入跳墙状态
         {
             stateMachine.changeState(player.wallJumpState);

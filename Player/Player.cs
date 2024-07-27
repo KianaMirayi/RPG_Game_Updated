@@ -132,6 +132,11 @@ public class Player : Entity
     {
         base.Update();
 
+        if (Time.timeScale == 0) //‘›Õ£”Œœ∑
+        {
+            return;
+        }
+
         stateMachine.currentState.Update();
 
         CheckDashInput();
@@ -148,6 +153,7 @@ public class Player : Entity
             Debug.Log("Use Flask");
             Inventory.Instance.UseFlask();
         }
+
     }
 
     //public void setVelocity(float xVelocity, float yVelocity)
@@ -293,6 +299,12 @@ public class Player : Entity
         dashSpeed = DefaultDashSpeed;
 
     }
+
+    protected override void SetUpZeroKnockPower()
+    {
+        KnockBackPower = new Vector2(0, 0);
+    }
+
 }
 
 
