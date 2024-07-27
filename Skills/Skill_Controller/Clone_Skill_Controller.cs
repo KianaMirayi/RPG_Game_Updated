@@ -78,6 +78,8 @@ public class Clone_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
+                hit.GetComponent<Entity>().SetUpKnockDir(transform);
+
                 //hit.GetComponent<Enemy>().DamageImpact();  //该语句换为下一句
                 //player.stats.DoDamage(hit.GetComponent<CharacterStats>());//该语句换为以下
 

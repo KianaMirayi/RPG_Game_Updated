@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Sword_Skill_Controller : MonoBehaviour
 {
-    public Animator SwordAnim;
+    public Animator anim;
 
-    public Rigidbody2D SwordRb;
+    public Rigidbody2D rb;
 
-    public CircleCollider2D SwordCd;
+    public CircleCollider2D cd;
 
     public Player player;
 
@@ -50,18 +50,18 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private void Awake()
     {
-        SwordAnim = GetComponentInChildren<Animator>();
-        SwordRb = GetComponent<Rigidbody2D>();
-        SwordCd = GetComponent<CircleCollider2D>();
+        anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        cd = GetComponent<CircleCollider2D>();
     }
 
     public void SetUpSword(Vector2 dir, float gravityScale, Player _player)  //传入相关参数：剑的方向向量，重力以及使用主体
     {
         player = _player;
-        SwordRb.velocity = dir;
-        SwordRb.gravityScale = gravityScale;
+        rb.velocity = dir;
+        rb.gravityScale = gravityScale;
 
-        SwordAnim.SetBool("Rotation", true); //触发函数时播放剑的旋转动画
+        anim.SetBool("Rotation", true); //触发函数时播放剑的旋转动画
 
         
         Invoke("DestorySword", 4);  //若不回收剑，则剑在四秒后销毁
@@ -95,11 +95,12 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     public void ReturnSword()
     {
-        //SwordRb.isKinematic = false;
-        SwordRb.constraints = RigidbodyConstraints2D.FreezeAll; // 回收剑时冻结xyz属性
+        //rb.isKinematic = false;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll; // 回收剑时冻结xyz属性
         transform.parent = null;
         IsReturning = true;
-        SwordAnim.SetBool("Rotation", true);
+        anim.SetBool("Rotation", true);
+        Debug.Log("44444");
 
     }
 
@@ -107,7 +108,7 @@ public class Sword_Skill_Controller : MonoBehaviour
     {
         if (CanRotate)
         {
-            transform.right = SwordRb.velocity; //使对象的右侧方向对齐到当前速度方向。这通常用于确保对象朝向它的运动方向，例如使箭头、子弹或飞剑在飞行时始终朝向它们的前进方向。
+            transform.right = rb.velocity; //使对象的右侧方向对齐到当前速度方向。这通常用于确保对象朝向它的运动方向，例如使箭头、子弹或飞剑在飞行时始终朝向它们的前进方向。
         }
 
         if (IsReturning)  //回收剑
@@ -192,7 +193,7 @@ public class Sword_Skill_Controller : MonoBehaviour
     private void StopWhenSpin()
     {
         isStopped = true;
-        SwordRb.constraints = RigidbodyConstraints2D.FreezePosition;
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
         SpinTimer = SpinDuration;
     }
 
@@ -307,20 +308,20 @@ public class Sword_Skill_Controller : MonoBehaviour
 
         CanRotate = false;
 
-        SwordCd.enabled = false; // 冻结剑碰撞器
+        cd.enabled = false; // 冻结剑碰撞器
 
-        SwordRb.isKinematic = true;  //将剑的Body Type变更为Kinematic
+        rb.isKinematic = true;  //将剑的Body Type变更为Kinematic
 
         //如果该属性设置为 true，则刚体将停止对碰撞和施加的力作出反应。对于通常情况下应该以“运动学”（即非物理）方式控制，但有时需要具有物理特性以增强真实感的对象，该属性很有用。例如，人类角色通常不使用物理实现，但有时可能会因冲击或爆炸而被抛到空中或与其他对象碰撞。
 
-        SwordRb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
         if (IsBouncing && EnemyTarget.Count > 0)
         {
             return ;
         }
 
-        SwordAnim.SetBool("Rotation", false);
+        anim.SetBool("Rotation", false);
         transform.parent = collision.transform; // 剑插在敌人身上后将随敌人运动
 
         if (collision.GetComponent<Player>())

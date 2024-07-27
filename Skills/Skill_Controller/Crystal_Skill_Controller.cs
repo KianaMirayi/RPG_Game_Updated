@@ -109,6 +109,8 @@ public class Crystal_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
+                hit.GetComponent<Entity>().SetUpKnockDir(transform);
+
                 //hit.GetComponent<Enemy>().DamageImpact();由以下语句替代
                 player.stats.DoMagicDamage(hit.GetComponent<CharacterStats>());
 
