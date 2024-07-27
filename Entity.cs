@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Entity : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Entity : MonoBehaviour
     public float attackCheckRadius;
 
     [Header("KnockBack info")]
-    [SerializeField] protected Vector2 KnockDir;  //用于表示被击退时的位置向量
+    [SerializeField] protected Vector2 KnockBackPower;  //用于表示被击退时的位置向量
     [SerializeField] protected float KnockBcakDuration;  //用于表示在被击退状态下的时间
     public bool IsKnocked;  // 用于判断是否被击退
 
@@ -28,6 +29,8 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected float wallCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
+
+    public int KnockBackDir { get; private set; }
 
     public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
@@ -140,22 +143,45 @@ public class Entity : MonoBehaviour
     {
         //fx.StartCoroutine("FlashFx"); //移动至CharacterStats 的TakeDamage
         StartCoroutine("HitKnockBack");
-        //Debug.Log(gameObject.name + " was damaged");
+        Debug.Log(gameObject.name + " was damaged");
 
     }
 
+    public virtual void SetUpKnockDir(Transform _damagedireaction)
+    {
+        if (_damagedireaction.position.x > transform.position.x) //当攻击来自敌人右边时，要将敌人往左退
+        {
+            KnockBackDir = -1;
+        }
+        else if (_damagedireaction.position.x < transform.position.x) //当攻击来自敌人左边时，要将敌人往右退
+        {
+            KnockBackDir = 1;
+        }
+    }
+
+    public void SetUpKnockBackPower(Vector2 _knockPower)
+    { 
+        KnockBackPower = _knockPower;
+    }
     public virtual IEnumerator HitKnockBack()
     { 
         IsKnocked = true;
 
-        rb.velocity = new Vector2(KnockDir.x * -facingDir, KnockDir.y);
+        rb.velocity = new Vector2(KnockBackPower.x * KnockBackDir, KnockBackPower.y);
 
         yield return new WaitForSeconds(KnockBcakDuration);
 
         IsKnocked = false;
+        SetUpZeroKnockPower();
     }
 
-    
+
+    protected virtual void SetUpZeroKnockPower()
+    { 
+        
+    }
+
+
 
     public virtual void Die()
     { 

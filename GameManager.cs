@@ -219,7 +219,17 @@ public class GameManager : MonoBehaviour, ISaveManager
         }
 
         return closetCheckPoint;
+    }
 
-
+    public void PauseGame(bool _pause) //‘›Õ£”Œœ∑
+    {
+        if (_pause)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 }
