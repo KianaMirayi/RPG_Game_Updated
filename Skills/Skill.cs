@@ -12,11 +12,18 @@ public class Skill : MonoBehaviour
     public virtual void Start()
     {
         player = PlayerManager.instance.player;
+
+        CheckLoadedSkillUnlock();
     }
 
     public virtual void Update()
     {
         CoolDownTimer -= Time.deltaTime;
+    }
+
+    protected virtual void CheckLoadedSkillUnlock()
+    { 
+        
     }
 
     public virtual bool CanUseSkill()
@@ -27,6 +34,7 @@ public class Skill : MonoBehaviour
             CoolDownTimer = CoolDown;  //计时器重置
             return true;
         }
+        player.fx.CreatePopUpText("技能冷却中");
         Debug.Log("Skill is on CoolDown");
         return false;
 

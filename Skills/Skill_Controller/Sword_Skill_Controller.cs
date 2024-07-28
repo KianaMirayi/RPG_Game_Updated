@@ -246,13 +246,15 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) // 当另一个碰撞器2D进入了触发器，则调用OnTriggerEnter2D  普通剑和穿刺剑逻辑
     {
+        Debug.Log("45645");
+
         if (IsReturning)
         {
             return;  //当触发该函数时，下面的语句全部不执行
         }
 
         //collision.GetComponent<Enemy>()?.DamageImpact();
-        
+
 
         if (collision.GetComponent<Enemy>() != null)  //当检测到敌人碰撞器
         {

@@ -27,10 +27,15 @@ public class Parry_Skill : Skill
 
         if (restoreUnlocked)
         {
-            int restoreAmount = Mathf.RoundToInt(player.stats.GetMaxHp() * restoreHpPercentage);  //若解锁弹反成功回复生命值，则生命值回复量取决于一定比例的最大生命值
+            int restoreAmount = Mathf.RoundToInt(player.stats.GetMaxHp() * restoreHpPercentage);  //若解锁弹反成功回复生命值，生命值回复量取决于一定比例的最大生命值
             player.stats.IncreaseHpBy(restoreAmount);
         }
 
+    }
+
+    public override bool CanUseSkill()
+    {
+        return base.CanUseSkill();
     }
 
     public override void Start()
@@ -42,6 +47,15 @@ public class Parry_Skill : Skill
         ParryWithMirageUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockParryWithMirage);
 
     }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+
+
+
+
 
     protected override void CheckLoadedSkillUnlock()
     {
