@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using UnityEditor;
 using UnityEngine;
 
-
+#if UNITY_EDITOR  //分配ID给每一个unity中的资产
+using UnityEditor;
+#endif
 public enum ItemType
 {
     Material,

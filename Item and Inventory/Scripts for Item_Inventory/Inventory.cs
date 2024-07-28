@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEngine;
 
@@ -43,6 +42,8 @@ public class Inventory : MonoBehaviour, ISaveManager
     //private List<ItemData> ItemDataBase;
     public List<InventoryItem> loadedItems;
     public List<ItemData_Equipment> loadedEquipment;
+
+    public List<ItemData> itemDataBase; //
 
 
 
@@ -402,7 +403,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
         foreach (KeyValuePair<string, int> pair in _data.inventory) //遍历每一个inventory中的键值对
         {
-            foreach (var item in GetItemDataBase())  //遍历每一个储起来的装备
+            foreach (var item in itemDataBase)  //遍历每一个储起来的装备
             {
                 if (item != null && item.ItemID == pair.Key)
                 {
@@ -416,7 +417,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
         foreach (string loadedItemID in _data.equipmentID)
         {
-            foreach (var item in GetItemDataBase())
+            foreach (var item in itemDataBase)
             {
                 if (item != null && loadedItemID == item.ItemID)
                 {
@@ -452,6 +453,13 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     }
 
+#if UNITY_EDITOR  // 在每一次新建物体时一定要填充数据库！！！
+    [ContextMenu("填充数据库")] //发布
+    private void FillUpItemDataBase()
+    {
+        itemDataBase = new List<ItemData>(GetItemDataBase());
+    }
+
     private List<ItemData> GetItemDataBase()
     {
         List<ItemData> ItemDataBase = new List<ItemData>();
@@ -467,6 +475,8 @@ public class Inventory : MonoBehaviour, ISaveManager
         return ItemDataBase;
     }
 
+
+#endif
 
 }
 
