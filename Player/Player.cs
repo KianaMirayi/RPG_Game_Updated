@@ -255,6 +255,7 @@ public class Player : Entity
         if (Input.GetKeyDown(KeyCode.LeftShift) /*&& dashUsetime < 0*/ && skillManager.Dash.CanUseSkill())
         {
             AudioManager.instance.PlaySfx(38, transform);
+            fx.PlayDashFX();
             //dashUsetime = dashCoolDown;
             dashDir = Input.GetAxisRaw("Horizontal");
 

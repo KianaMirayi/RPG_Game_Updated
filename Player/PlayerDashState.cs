@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerDashState : PlayerState
 {
     public bool dash;
+
+    
     public PlayerDashState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
@@ -25,6 +27,8 @@ public class PlayerDashState : PlayerState
         player.skillManager.Dash.CreateCloneOnDash();
 
         player.stats.MakeInvincible(true); //≥Â¥Ã ±ÕÊº“Œﬁµ–
+
+        player.fx.PlayDashFX();
     }
 
     public override void Exit()
@@ -63,6 +67,8 @@ public class PlayerDashState : PlayerState
         {
             stateMachine.changeState(player.idleState);
         }
+
+        player.fx.CreateAfterImage();
     }
 }
  

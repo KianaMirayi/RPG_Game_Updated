@@ -16,6 +16,7 @@ public class PlayerAirState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        player.fx.PlayDustFX();
     }
 
     public override void Update()
@@ -26,6 +27,7 @@ public class PlayerAirState : PlayerState
         {
             //Debug.Log("IsGroundDetected");
             stateMachine.changeState(player.idleState);
+            
         }
 
         if (player.IsWallDetected())

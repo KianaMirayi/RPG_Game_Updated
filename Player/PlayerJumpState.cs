@@ -18,6 +18,8 @@ public class PlayerJumpState : PlayerState
     public override void Exit()
     {
         base.Exit();
+
+        //player.fx.PlayDustFX();
     }
 
     public override void Update()

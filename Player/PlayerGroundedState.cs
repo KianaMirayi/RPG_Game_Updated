@@ -27,7 +27,8 @@ public class PlayerGroundedState : PlayerState
         if (Input.GetKeyDown(KeyCode.R) && player.skillManager.BlackHole.BlackHoleUnlocked)  //大招黑洞
         {
             if (player.skillManager.BlackHole.CoolDownTimer > 0)
-            { 
+            {
+                player.fx.CreatePopUpText("技能冷却中");
                 return;
             }
 
