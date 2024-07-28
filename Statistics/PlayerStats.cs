@@ -36,7 +36,15 @@ public class PlayerStats : CharacterStats
         {
             player.SetUpKnockBackPower(new Vector2(3, 3));
             AudioManager.instance.PlaySfx(33, null);
+            player.fx.ScreenShake(player.fx.highDamageShakeImpact);
             Debug.Log("受到重伤");
+        }
+
+        if (_damage > CurrentHp * 0.3f) //当角色受到大于当前生命值30%的伤害时 TODO
+        {
+            AudioManager.instance.PlaySfx(33, null);
+            player.fx.ScreenShake(player.fx.DangerShakeImpact);
+            Debug.Log("dasfgadas");
         }
 
         ItemData_Equipment currentArmor = Inventory.Instance.GetTypeOfEquipment(EquipmentType.Armor);

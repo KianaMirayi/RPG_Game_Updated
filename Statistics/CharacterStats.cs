@@ -1,4 +1,3 @@
-using Autodesk.Fbx;
 using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
@@ -77,13 +76,18 @@ public class CharacterStats : MonoBehaviour
 
     public bool isInvincible; //ÎÞµÐ×´Ì¬
 
+    private void Awake()
+    {
+        fx = GetComponent<EntityFX>();
+    }
+
     // Start is called before the first frame update
     public virtual void Start()
     {
         CritPower.SetDefaultValue(150);
         CurrentHp = GetMaxHp() ;
 
-        fx = GetComponent<EntityFX>();
+        
     }
 
     // Update is called once per frame
@@ -165,9 +169,12 @@ public class CharacterStats : MonoBehaviour
                 //Debug.Log("Total Critical Damage is" + totalDamage);
 
                 criticalHit = true;
+                fx.ScreenShake(fx.critHitShakeImpact); //¾µÍ·¶¶¶¯
             }
 
-        fx.GenerateHitFX(_target.transform,criticalHit);
+        fx.GenerateHitFX(_target.transform,criticalHit); //¹¥»÷Óë±©»÷ÌØÐ§
+        
+
 
             totalDamage = CheckTargetArmor(_target, totalDamage);
 
@@ -318,6 +325,7 @@ public class CharacterStats : MonoBehaviour
 
             //CurrentHp -= IgniteDamage;
             DecreaseHpBy(IgniteDamage);
+            
             if (CurrentHp < 0 && !IsDead)
             {
                 Die();
@@ -472,6 +480,12 @@ public class CharacterStats : MonoBehaviour
         }
 
         CurrentHp -= _damage;
+
+        if (_damage > 0)
+        {
+            fx.CreatePopUpText(_damage.ToString()); //´òÓ¡ÉËº¦Êý×Ö
+        }
+
 
         if (onHpUpdate != null)
         {
