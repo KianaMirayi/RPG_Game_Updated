@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
+using Cinemachine;
+using UnityEngine.UIElements;
+using TMPro;
 
 public class EntityFX : MonoBehaviour
 {
     private SpriteRenderer sr;
+    private Player player;
 
     [Header("Flash Fx")]
     [SerializeField] private Material HitMat;
@@ -24,16 +28,50 @@ public class EntityFX : MonoBehaviour
 
     [Header("Dust FX")]
     [SerializeField] private ParticleSystem dustFX;
+    [SerializeField] private ParticleSystem dashFX;
 
     [Header("Hit FX")]
     [SerializeField] private GameObject HitFX1Prefab;
     [SerializeField] private GameObject CritHitFXPrefab;
+
+    [Header("After Image FX")]
+    [SerializeField] private GameObject afterImagePrefab;
+    [SerializeField] private float colorLosingRate;
+    [SerializeField] private float afterImageCoolDown;
+    private float afterImageCoolDownTimer;
+
+    [Header("Screen Shake")]
+    private CinemachineImpulseSource screenShake;
+    [SerializeField]public float shakeMultiplier;
+    public Vector3 swordShakeImpact;
+    public Vector3 highDamageShakeImpact;
+    public Vector3 critHitShakeImpact;
+    public Vector3 DangerShakeImpact; //攻击大于当前生命值的30%时
+
+    [Header("Popup Text")]
+    [SerializeField] private GameObject popUpTextPrefab;
+    
+
+
 
 
     private void Start()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         originMat = sr.material;
+        player = PlayerManager.instance.player;
+        screenShake = GetComponent<CinemachineImpulseSource>();
+    }
+
+    private void Update()
+    {
+        afterImageCoolDownTimer -= Time.deltaTime;
+    }
+
+    public void ScreenShake(Vector3 _shakePower) //只要想让屏幕抖动，就调用这个方法
+    {
+        screenShake.m_DefaultVelocity = new Vector3(_shakePower.x * player.facingDir, _shakePower.y) * shakeMultiplier;
+        screenShake.GenerateImpulse();
     }
 
     public void MakeTransparent(bool _transParent)
@@ -145,7 +183,7 @@ public class EntityFX : MonoBehaviour
         Invoke("CancelColorChange", _seconds);
     }
 
-    public void GenerateHitFX(Transform _targetTransform, bool _critical)
+    public void GenerateHitFX(Transform _targetTransform, bool _critical) //攻击与暴击特效
     {
 
         float zRotation = Random.Range(-90,90);
@@ -189,6 +227,39 @@ public class EntityFX : MonoBehaviour
         { 
             dustFX.Play();
         }
+    }
+
+    public void PlayDashFX()
+    {
+        if (dashFX != null)
+        { 
+            dashFX.Play(); 
+        }
+    }
+
+    public void CreateAfterImage()
+    {
+        if (afterImageCoolDownTimer <= 0)
+        {
+            afterImageCoolDownTimer = afterImageCoolDown;
+
+            GameObject newAfterImage = Instantiate(afterImagePrefab, transform.position, transform.rotation);
+            newAfterImage.GetComponent<AfterImageFX>().SetupAfterImage(colorLosingRate, sr.sprite);
+        }       
+
+    }
+
+    public void CreatePopUpText(string _text) //需要文字漂浮时调用此方法
+    {
+        float xRandom = Random.Range(-1, 1);
+        float yRandom = Random.Range(1, 3);
+
+        Vector3 positionOffset = new Vector3(xRandom, yRandom, 0);
+
+        GameObject newText = Instantiate(popUpTextPrefab,transform.position + positionOffset, Quaternion.identity);
+        newText.GetComponent<TextMeshPro>().text = _text;
+
+        
     }
     
 }
