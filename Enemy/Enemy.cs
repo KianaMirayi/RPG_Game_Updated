@@ -1,9 +1,14 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(EnemyStats))]
+[RequireComponent(typeof(EntityFX))]
+[RequireComponent(typeof(ItemDrop))]
 public class Enemy : Entity
 {
 
@@ -36,6 +41,8 @@ public class Enemy : Entity
 
     public String LastAnimBoolName { get; private set; }
 
+    //public EntityFX fx;
+
     public override void Awake()
     {
         base.Awake();
@@ -49,7 +56,9 @@ public class Enemy : Entity
     public override void Start()
     {
         base.Start();
-        
+        //fx = GetComponent<EntityFX>();
+
+
     }
 
     public override void Update()
