@@ -50,6 +50,8 @@ public class Player : Entity
 
     public GameObject Sword;
 
+    //public EntityFX fx;
+
     #region States
     public PlayerStateMachine stateMachine { get; private set; }
 
@@ -122,6 +124,7 @@ public class Player : Entity
         //rb = GetComponent<Rigidbody2D>();
         skillManager = SkillManager.SkillInstance;
         stateMachine.Initialize(idleState);
+        //fx = GetComponent<EntityFX>();
 
         DefaultMoveSpeed = moveSpeed;
         DefaultJumpForce = jumpforce;
