@@ -13,6 +13,8 @@ public class SlimeAttackState : EnemyState
     public override void Enter()
     {
         base.Enter();
+
+        Debug.Log("Ê·À³Ä·¿ªÊ¼¹¥»÷");
     }
 
     public override void Exit()
@@ -25,7 +27,9 @@ public class SlimeAttackState : EnemyState
     public override void Update()
     {
         base.Update();
-        slimeEnemy.ZeroVelocity();
+        //slimeEnemy.ZeroVelocity();
+
+        //Debug.Log(slimeEnemy.moveSpeed);
 
         if (Triggercalled)
         {

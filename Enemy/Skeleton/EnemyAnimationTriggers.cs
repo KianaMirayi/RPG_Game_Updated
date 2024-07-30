@@ -8,7 +8,7 @@ public class EnemyAnimationTriggers : MonoBehaviour
 
     public void AnimationTrigger()
     {
-        enemy.AnimationTrigger();
+        enemy.AnimationFinishTrigger();
     }
 
     private void AttackTrigger()
@@ -31,5 +31,10 @@ public class EnemyAnimationTriggers : MonoBehaviour
 
     public void OpenCounterWindow() => enemy.OpenCounterWindow();
     public void CloseCounterWindow() => enemy.CloseCounterWindow();
+
+    private void SpecialAttackTrigger()
+    { 
+        enemy.AnimationSpecialAttackTrigger();
+    }
 
 }

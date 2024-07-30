@@ -28,6 +28,8 @@ public class SlimeBattleState : EnemyState
         {
             enemyStateMachine.changeState(slimeEnemy.slimeMoveState);
         }
+
+        Debug.Log("史莱姆进入战斗状态");
     }
     public override void Update()
     {
@@ -65,8 +67,13 @@ public class SlimeBattleState : EnemyState
             moveDir = -1;
         }
 
+        if (slimeEnemy.IsPlayerDetected() && slimeEnemy.IsPlayerDetected().distance < slimeEnemy.attackDistance - 0.5f)
+        { 
+            return;
+        }
+
         slimeEnemy.setVelocity(slimeEnemy.moveSpeed * moveDir, slimeEnemy.rb.velocity.y);
-        Debug.Log("Skeleton is in battlestate");
+        Debug.Log("Slime is in battlestate");
     }
 
     public override void Exit()

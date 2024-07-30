@@ -23,6 +23,7 @@ public class Enemy : Entity
     public float battleTime;
 
     [Header("Attack info")]
+    public float agreDistacne = 2;
     public float attackDistance;
     public float enemyAttackCoolDown;
     public float enemyMaxAttackCoolDown;
@@ -85,9 +86,14 @@ public class Enemy : Entity
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + attackDistance * facingDir, wallCheck.position.y));
     }
 
-    public virtual void AnimationTrigger()
+    public virtual void AnimationFinishTrigger()
     {
         stateMachine.enemyCurrentState.AnimationFinishTrigger();
+    }
+
+    public virtual void AnimationSpecialAttackTrigger() //for Archer
+    { 
+        
     }
 
 

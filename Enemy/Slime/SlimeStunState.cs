@@ -24,12 +24,20 @@ public class SlimeStunState : EnemyState
     public override void Exit()
     {
         base.Exit();
-        slimeEnemy.fx.Invoke("CancelColorChange", 0);
+        
+        slimeEnemy.stats.MakeInvincible(false);
     }
 
     public override void Update()
     {
         base.Update();
+
+        if (slimeEnemy.rb.velocity.y < 0.1f && slimeEnemy.IsGroundDetected())
+        {
+            slimeEnemy.fx.Invoke("CancelColorChange", 0);
+            slimeEnemy.anim.SetTrigger("StunTrigger");
+            slimeEnemy.stats.MakeInvincible(true);
+        }
 
         if (stateTimer < 0)
         {

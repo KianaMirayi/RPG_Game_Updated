@@ -25,9 +25,9 @@ public class SlimeGroundedState : EnemyState
     {
         base.Update();
 
-        if (slimeEnemy.IsPlayerDetected() || Vector2.Distance(slimeEnemy.transform.position, player.position) < 2)  // 同方向远距离检测到玩家时，以及在身后短距离检测到玩家时进入战斗状态
+        if (slimeEnemy.IsPlayerDetected() || Vector2.Distance(slimeEnemy.transform.position, player.position) < slimeEnemy.agreDistacne)  // 同方向远距离检测到玩家时，以及在身后短距离检测到玩家时进入战斗状态
         {
-
+            Debug.Log("史莱姆发现敌人");
             enemyStateMachine.changeState(slimeEnemy.slimeBattleState);
         }
     }
