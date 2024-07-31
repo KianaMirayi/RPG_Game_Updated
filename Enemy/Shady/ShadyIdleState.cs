@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherIdleState : ArcherGroundedState
+public class ShadyIdleState : ShadyGroundedState
 {
-    public ArcherIdleState(Enemy enemyBase, EnemyStateMachine enemyStateMachine, string enemyAnimBoolName, Enemy_Archer archerEnemy) : base(enemyBase, enemyStateMachine, enemyAnimBoolName, archerEnemy)
+    public ShadyIdleState(Enemy enemyBase, EnemyStateMachine enemyStateMachine, string enemyAnimBoolName, Enemy_Shady shady) : base(enemyBase, enemyStateMachine, enemyAnimBoolName, shady)
     {
     }
 
@@ -12,7 +12,7 @@ public class ArcherIdleState : ArcherGroundedState
     {
         base.Enter();
 
-        stateTimer = archerEnemy.idleTime; ;
+        stateTimer = shady.idleTime; ;
 
         //Debug.Log("Entered Idle State");
     }
@@ -25,7 +25,7 @@ public class ArcherIdleState : ArcherGroundedState
 
         if (stateTimer < 0)
         {
-            enemyStateMachine.changeState(archerEnemy.archerMoveState);
+            enemyStateMachine.changeState(shady.shadyMoveState);
             //Debug.Log("Switching to Move state");
         }
 

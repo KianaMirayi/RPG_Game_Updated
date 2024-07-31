@@ -28,7 +28,6 @@ public class Enemy_Archer : Enemy
     public ArcherAttackState archerAttackState { get; private set; }
     public ArcherStunnedState archerStunnedState { get; private set;}
     public ArcherDeadState archerDeadState { get; private set; }
-
     public ArcherJumpState archerJumpState { get; private set; }
 
 

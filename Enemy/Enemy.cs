@@ -75,7 +75,7 @@ public class Enemy : Entity
         LastAnimBoolName = _animBoolName;
     }
 
-    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 7, whatIsPlayer);
+    public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 50, whatIsPlayer);
 
     public override void OnDrawGizmos()
     {
@@ -91,7 +91,7 @@ public class Enemy : Entity
         stateMachine.enemyCurrentState.AnimationFinishTrigger();
     }
 
-    public virtual void AnimationSpecialAttackTrigger() //for Archer
+    public virtual void AnimationSpecialAttackTrigger() //for Archer and Shady
     { 
         
     }
