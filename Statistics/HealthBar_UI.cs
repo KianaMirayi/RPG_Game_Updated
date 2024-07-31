@@ -1,25 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar_UI : MonoBehaviour
 {
-    private Entity Entity;
+    private Entity Entity =>GetComponentInParent<Entity>();
     private RectTransform HealthBarTransform;
     private Slider slider;
 
-    private CharacterStats CharacterStats;
+    private CharacterStats CharacterStats =>GetComponentInParent<CharacterStats>();
 
     private void Start()
     {
-        Entity = GetComponentInParent<Entity>();
+        //Entity = GetComponentInParent<Entity>();
         HealthBarTransform = GetComponent<RectTransform>();
         slider = GetComponentInChildren<Slider>();
-        CharacterStats = GetComponentInParent<CharacterStats>();
+        //CharacterStats = GetComponentInParent<CharacterStats>();
 
-        Entity.onFlipped += FlipUI;
-        CharacterStats.onHpUpdate += UpdateHpUI;
+        //Entity.onFlipped += FlipUI;
+        //CharacterStats.onHpUpdate += UpdateHpUI;
 
         UpdateHpUI();
     }
@@ -29,6 +30,7 @@ public class HealthBar_UI : MonoBehaviour
     //    UpdateHpUI();
     //}
 
+    
 
     private void UpdateHpUI()
     {
@@ -36,21 +38,33 @@ public class HealthBar_UI : MonoBehaviour
         slider.value = CharacterStats.CurrentHp;
     }
 
+   
+
+    private void OnEnable()
+    {
+        Entity.onFlipped += FlipUI;
+        CharacterStats.onHpUpdate += UpdateHpUI;
+    }
+
+    private void OnDisable()
+    {
+        if (Entity != null)
+        {
+            Entity.onFlipped -= FlipUI;
+        }
+
+        if (CharacterStats != null)
+        {
+            CharacterStats.onHpUpdate -= UpdateHpUI;
+        }
+
+        
+        
+    }
     private void FlipUI()
     {
         //Debug.Log("Entity is Flipped");
         HealthBarTransform.Rotate(0, 180, 0);
 
-    }
-
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        Entity.onFlipped -= FlipUI;
-        CharacterStats.onHpUpdate -= UpdateHpUI;
     }
 }
