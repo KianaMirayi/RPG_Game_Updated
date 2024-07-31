@@ -50,6 +50,8 @@ public class EntityFX : MonoBehaviour
 
     [Header("Popup Text")]
     [SerializeField] private GameObject popUpTextPrefab;
+
+    private GameObject healthBar;
     
 
 
@@ -61,6 +63,9 @@ public class EntityFX : MonoBehaviour
         originMat = sr.material;
         player = PlayerManager.instance.player;
         screenShake = GetComponent<CinemachineImpulseSource>(); //copy to playerfx
+        healthBar = GetComponentInChildren<HealthBar_UI>().gameObject;
+
+
     }
 
     private void Update()
@@ -78,11 +83,13 @@ public class EntityFX : MonoBehaviour
     {
         if (_transParent)
         {
+            healthBar.SetActive(false);
             sr.color = new Color(1, 1, 1, sr.color.a - Time.deltaTime * 1.5f);
             /*cd.enabled = false;*/  //冻结碰撞器使敌人检测不到
         }
         else
         {
+            healthBar.SetActive(true);
             sr.color = Color.white;
             //cd.enabled = true;
         }
