@@ -155,6 +155,7 @@ public class Player : Entity
         {
             Debug.Log("Use Flask");
             Inventory.Instance.UseFlask();
+            AudioManager.instance.PlaySfx(77, null);
         }
 
     }

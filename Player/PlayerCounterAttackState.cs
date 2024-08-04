@@ -31,28 +31,42 @@ public class PlayerCounterAttackState : PlayerState
 
         foreach (var hit in colliders)
         {
+            if (hit.GetComponent<Arrow_Controller>() != null)
+            {
+                AudioManager.instance.PlaySfx(69, null);
+                hit.GetComponent<Arrow_Controller>().FlipArrow();
+                SuccessfulCounterAttack();
+                
+            }
+
             if (hit.GetComponent<Enemy>() != null)  //检测到敌人
             {
                 if (hit.GetComponent<Enemy>().CanbeStunned()) // 当检测敌人可以受到弹反伤害
                 {
-                    stateTimer = 1;
-                    AudioManager.instance.PlaySfx(40, player.transform); //播放弹反成功音效
+                    SuccessfulCounterAttack();
 
-                    player.anim.SetBool("SuccessfullyCounterAttack", true);  //播放成功弹反的动画
+                    if (hit.GetComponent<Enemy_Slime>() != null)//当弹反的对象是史莱姆时
+                    {
+                        AudioManager.instance.PlaySfx(51,null);
+                    }
+
+                    
+
+                    AudioManager.instance.PlaySfx(40, player.transform); //播放弹反成功音效
 
                     player.skillManager.Parry.UseSkill();//弹反成功时回复生命值
 
 
                     if (CanCreateClone)
-                    { 
-                        CanCreateClone =false;
+                    {
+                        CanCreateClone = false;
                         //player.skillManager.Clone.CreateCloneWithDelay(hit.transform);  //成功弹反将创造幻影并使敌人击退
                         player.skillManager.Parry.CreateMirageOnParry(hit.transform);
-                        
+
                     }
 
                     PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
-                    EnemyStats  enemyStats = hit.GetComponent<EnemyStats>();
+                    EnemyStats enemyStats = hit.GetComponent<EnemyStats>();
                     playerStats.DoDamage(enemyStats);
 
                 }
@@ -65,6 +79,14 @@ public class PlayerCounterAttackState : PlayerState
             //Debug.Log("0000000"+TriggerCalled);
         }
     }
+
+    private void SuccessfulCounterAttack()
+    {
+        stateTimer = 1;
+
+        player.anim.SetBool("SuccessfullyCounterAttack", true);  //播放成功弹反的动画
+    }
+
     public override void Exit()
     {
         base.Exit();

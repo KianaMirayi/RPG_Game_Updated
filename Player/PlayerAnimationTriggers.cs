@@ -46,5 +46,10 @@ public class PlayerAnimationTriggers : MonoBehaviour
     {
         SkillManager.SkillInstance.Sword.CreatSword();
     }
+
+    public void RotatingSword()
+    {
+        AudioManager.instance.PlaySfx(72,null);
+    }
     
 }
