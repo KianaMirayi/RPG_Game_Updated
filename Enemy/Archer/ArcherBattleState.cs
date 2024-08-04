@@ -22,6 +22,7 @@ public class ArcherBattleState : EnemyState
         //player = GameObject.Find("Player").transform;
 
         player = PlayerManager.instance.player.transform;
+        
 
         if (player.GetComponent<PlayerStats>().IsDead)
         {

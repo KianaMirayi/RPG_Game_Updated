@@ -38,9 +38,12 @@ public class ShadyBattleState : EnemyState
     {
         base.Update();
 
+        
+
         if (shady.IsPlayerDetected())
         {
             stateTimer = shady.battleTime;
+            AudioManager.instance.PlaySfx(56,null);
 
             if (shady.IsPlayerDetected().distance < shady.attackDistance)  //角色在敌人攻击范围内
             {

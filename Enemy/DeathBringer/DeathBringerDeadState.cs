@@ -14,6 +14,8 @@ public class DeathBringerDeadState : EnemyState
     {
         base.Enter();
 
+        AudioManager.instance.PlaySfx(65,null);
+
         deathBringer.anim.SetBool(deathBringer.LastAnimBoolName, true);
         deathBringer.anim.speed = 0;
         deathBringer.cd.enabled = false;

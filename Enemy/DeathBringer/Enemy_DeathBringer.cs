@@ -86,29 +86,38 @@ public class Enemy_DeathBringer : Enemy
 
         GameObject newSpell = Instantiate(spellPrefab, spllePosition, Quaternion.identity);
         newSpell.GetComponent<DeathBringerSpell_Controller>().SetupSpell(stats);
+        AudioManager.instance.PlaySfx(64, null);
 
 
 
     }
 
-    public void FindPosition() //boss传送至战场的随机位置
+    public void FindPosition(int maxAttempts = 50) //boss传送至战场的随机位置
     {
+        if (maxAttempts <= 0)
+        {
+            Debug.LogError("Max attempts reached, cannot find suitable position");
+            return;
+        }
+
         float x = Random.Range(arena.bounds.min.x + 3, arena.bounds.max.x - 3);
         float y = Random.Range(arena.bounds.min.y + 3, arena.bounds.max.y - 3);
 
         transform.position = new Vector3(x, y);
         transform.position = new Vector3(transform.position.x, transform.position.y - GroundBelow().distance + (cd.size.y / 2));
 
-        if (!GroundBelow())
+        if (!GroundBelow() || SomethingIsAround())
         {
             Debug.Log("Looking for new position g");
-            FindPosition();
+            FindPosition(maxAttempts - 1);
+            return;
         }
 
         //if (SomethingIsAround()) //加上这条检查内存就溢出了，并且造成卡顿
         //{
         //    Debug.Log("Looking for new position around");
-        //    FindPosition();
+        //    FindPosition(maxAttempts--);
+        //    return;
         //}
     }
 

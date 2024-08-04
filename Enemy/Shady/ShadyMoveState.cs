@@ -20,7 +20,9 @@ public class ShadyMoveState : ShadyGroundedState
         base.Update();
 
         shady.setVelocity(shady.moveSpeed * shady.facingDir, shady.rb.velocity.y);
-        //Debug.Log("Skeleton is moving");
+
+        AudioManager.instance.PlaySfx(54, null);
+        Debug.Log("shady is moving");
 
         if (shady.IsWallDetected())
         {

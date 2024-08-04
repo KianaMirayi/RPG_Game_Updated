@@ -19,6 +19,7 @@ public class SlimeBattleState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        AudioManager.instance.PlaySfx(49, null);
 
         //player = GameObject.Find("Player").transform;
 

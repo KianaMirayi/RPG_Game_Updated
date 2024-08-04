@@ -15,6 +15,7 @@ public class SkeletonDeadState : EnemyState
         base.Enter();
 
         skeletonEnemy.anim.SetBool(skeletonEnemy.LastAnimBoolName, true);
+        AudioManager.instance.PlaySfx(44,null);
         skeletonEnemy.anim.speed = 0;
         skeletonEnemy.cd.enabled = false;
 

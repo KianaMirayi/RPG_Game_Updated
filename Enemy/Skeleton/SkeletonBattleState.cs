@@ -22,6 +22,7 @@ public class SkeletonBattleState : EnemyState
         //player = GameObject.Find("Player").transform;
 
         player = PlayerManager.instance.player.transform;
+        
 
         if (player.GetComponent<PlayerStats>().IsDead)
         {
@@ -31,6 +32,7 @@ public class SkeletonBattleState : EnemyState
     public override void Update()
     {
         base.Update();
+        //AudioManager.instance.PlaySfx(43, null);
 
         if (skeletonEnemy.IsPlayerDetected())
         {

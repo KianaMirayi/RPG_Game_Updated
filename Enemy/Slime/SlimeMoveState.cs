@@ -12,12 +12,14 @@ public class SlimeMoveState : SlimeGroundedState
     {
         base.Enter();
         //Debug.Log("Entered Move State");
+        AudioManager.instance.PlaySfx(49,null);
     }
 
 
     public override void Update()
     {
         base.Update();
+
 
         slimeEnemy.setVelocity(slimeEnemy.moveSpeed * slimeEnemy.facingDir, slimeEnemy.rb.velocity.y);
         //Debug.Log("Skeleton is moving");

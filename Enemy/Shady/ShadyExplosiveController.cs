@@ -30,7 +30,7 @@ public class ShadyExplosiveController : MonoBehaviour
         if (MaxSize - transform.localScale.x < 0.5f)
         { 
             canGrow = false;
-            anim.SetTrigger("Exlpode");
+            anim.SetTrigger("Explode");
         }
         
     }
@@ -74,6 +74,11 @@ public class ShadyExplosiveController : MonoBehaviour
     private void SelfDestory()
     {
         Destroy(gameObject);
+    }
+
+    public void PlayExplodeSfx()
+    {
+        AudioManager.instance.PlaySfx(55, null);
     }
 
 }

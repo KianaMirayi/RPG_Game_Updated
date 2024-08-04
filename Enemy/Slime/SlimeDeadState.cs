@@ -14,6 +14,8 @@ public class SlimeDeadState : EnemyState
     {
         base.Enter();
 
+        AudioManager.instance.PlaySfx(52,null);
+
         slimeEnemy.anim.SetBool(slimeEnemy.LastAnimBoolName, true);
         slimeEnemy.anim.speed = 0;
         slimeEnemy.cd.enabled = false;

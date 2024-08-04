@@ -37,4 +37,9 @@ public class DeathBringerSpell_Controller : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void PlaybeforeSfx()
+    {
+        AudioManager.instance.PlaySfx(64,null);
+    }
 }

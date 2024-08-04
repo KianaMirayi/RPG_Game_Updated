@@ -35,7 +35,7 @@ public class SkeletonIdleState : SkeletonGroundState
     {
         base.Exit();
 
-        AudioManager.instance.PlaySfx(19, skeletonEnemy.transform); //For Test
+        AudioManager.instance.PlaySfx(46, skeletonEnemy.transform); //For Test
         //Debug.Log("Exiting Idle State");
     }
 }
