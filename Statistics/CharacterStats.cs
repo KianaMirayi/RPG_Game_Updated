@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Serialization;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public enum StatType
 {
@@ -154,6 +155,7 @@ public class CharacterStats : MonoBehaviour
 
         if (TargetCanAvoidAttack(_target))
         {
+            
             return;
         }
 
@@ -455,8 +457,17 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void TakeDamage(int _damage)  //受到伤害
     {
+        PlayerStats playerStats = GetComponent<PlayerStats>();
+
         if (isInvincible) //无敌则免疫伤害
         {
+            fx.CreatePopUpText("无敌");
+            return;
+        }
+
+        if (TargetCanAvoidAttack(playerStats))
+        {
+            fx.CreatePopUpText("Miss");
             return;
         }
 
@@ -465,6 +476,22 @@ public class CharacterStats : MonoBehaviour
 
         GetComponent<Entity>().DamageImpact();
         fx.StartCoroutine("FlashFx"); //受击特效启用协程
+
+        //在这放敌人的受击音效
+        if (GetComponent<Enemy_Skeleton>() != null)
+        {
+            AudioManager.instance.PlaySfx(48,null);
+        }
+
+        if (GetComponent<Enemy_Archer>() != null)
+        {
+            AudioManager.instance.PlaySfx(68,null);
+        }
+
+        if (GetComponent<Enemy_DeathBringer>() != null)
+        {
+            AudioManager.instance.PlaySfx(70,null);
+        }
 
         if (CurrentHp <= 0 && !IsDead)
         {
