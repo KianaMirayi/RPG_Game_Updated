@@ -155,6 +155,13 @@ public class UI : MonoBehaviour,ISaveManager
         GameManager.instance.RestartScene();
     }
 
+    public void ExitGame()
+    {
+        
+        Application.Quit();
+        Debug.Log("Exit Game");
+    }
+
     public void LoadData(GameData _data)
     {
         foreach (KeyValuePair<string, float> pair in _data.volumeSettings)
