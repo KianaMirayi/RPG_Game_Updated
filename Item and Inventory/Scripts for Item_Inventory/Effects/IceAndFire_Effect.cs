@@ -21,6 +21,8 @@ public class IceAndFire_Effect : ItemEffect
 
             newIceAndFire.GetComponent<Rigidbody2D>().velocity = new Vector2(xVelocity * player.facingDir, 0);
 
+            AudioManager.instance.PlaySfx(76,null);
+
             Destroy(newIceAndFire, 2);
         }
 

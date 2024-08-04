@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour, ISaveManager
     public List<InventoryItem> stash;
     public Dictionary <ItemData, InventoryItem> stashDictionary;
 
+    public EntityFX fX;
+
 
     [Header("Inventory UI")]
     [SerializeField] private Transform inventorySlotParent;  //背包界面
@@ -58,6 +60,8 @@ public class Inventory : MonoBehaviour, ISaveManager
         { 
             Destroy(gameObject);
         }
+
+        fX = GetComponent<EntityFX>();
     }
 
     private void Start()
@@ -299,42 +303,74 @@ public class Inventory : MonoBehaviour, ISaveManager
 
 
     public bool CanCraft(ItemData_Equipment _itemToCraft, List<InventoryItem> _requiredMaterials)  //合成台工艺
-    { 
-        List<InventoryItem> materialToRemove = new List<InventoryItem>();
+    {
+        //List<InventoryItem> materialToRemove = new List<InventoryItem>();
 
-        for (int i = 0; i < _requiredMaterials.Count; i++)
+        //for (int i = 0; i < _requiredMaterials.Count; i++)
+        //{
+        //    if (stashDictionary.TryGetValue(_requiredMaterials[i].data, out InventoryItem stashValue))
+        //    {
+        //        if (stashValue.StackSize < _requiredMaterials[i].StackSize)
+        //        {
+        //            Debug.Log("Not enough materials");
+        //            return false;
+        //        }
+        //        else
+        //        { 
+        //            materialToRemove.Add(stashValue);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Not enough materials");
+        //        return false;
+        //    }
+        //}
+
+
+        //for (int i = 0; i < materialToRemove.Count; i++)
+        //{
+        //    RemoveItem(materialToRemove[i].data);
+        //}
+
+        //AddItem(_itemToCraft);
+        //Debug.Log("Here is your item " + _itemToCraft.name);
+
+        //return true;
+
+        foreach (var requiredItem in _requiredMaterials)
         {
-            if (stashDictionary.TryGetValue(_requiredMaterials[i].data, out InventoryItem stashValue))
+            if (stashDictionary.TryGetValue(requiredItem.data, out InventoryItem stashItem))
             {
-                if (stashValue.StackSize < _requiredMaterials[i].StackSize)
+                if (stashItem.StackSize < requiredItem.StackSize)
                 {
-                    Debug.Log("Not enough materials");
+                    Debug.Log("Not Enough Materials: " + requiredItem.data.name);
+                    //fX.CreatePopUpText("没有足够的材料： " + requiredItem.data.name);
+                    
                     return false;
-                }
-                else
-                { 
-                    materialToRemove.Add(stashValue);
                 }
             }
             else
             {
-                Debug.Log("Not enough materials");
+                Debug.Log("Material not found in stash: " + requiredItem.data.name);
+                //fX.CreatePopUpText("没有足够的材料： " + requiredItem.data.name);
                 return false;
             }
         }
 
 
-        for (int i = 0; i < materialToRemove.Count; i++)
+        foreach (var requiredMaterial in _requiredMaterials)
         {
-            RemoveItem(materialToRemove[i].data);
+            for (int i = 0; i < requiredMaterial.StackSize; i++)
+            {
+                RemoveItem(requiredMaterial.data);
+            }
         }
 
         AddItem(_itemToCraft);
-        Debug.Log("Here is your item " + _itemToCraft.name);
-
+        Debug.Log("Craft is Successful: " + _itemToCraft.name);
+        //fX.CreatePopUpText("锻造成功： " + _itemToCraft.name);
         return true;
-
-
     }
 
     public List<InventoryItem> GetEquipmentList() => equipment;

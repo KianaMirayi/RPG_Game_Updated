@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemObjectTrigger : MonoBehaviour
 {
     public ItemObject itemObject => GetComponentInParent<ItemObject>();
+    public EntityFX fx => GetComponent<EntityFX>();
 
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,6 +18,7 @@ public class ItemObjectTrigger : MonoBehaviour
             }
 
             itemObject.PickUpItem();
+            //fx.CreatePopUpText(itemObject.gameObject.name);
         }
     }
 }

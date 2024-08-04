@@ -9,6 +9,8 @@ public class ItemObject : MonoBehaviour
     [SerializeField]private Rigidbody2D rb;
 
     [SerializeField] private ItemData itemData;
+
+    public EntityFX fx;
     //[SerializeField] private Vector2 xVelocity;
 
     //private void OnValidate()
@@ -16,6 +18,10 @@ public class ItemObject : MonoBehaviour
     //    SetUpVisual();
     //}
 
+    private void Awake()
+    {
+        fx = GetComponent<EntityFX>();
+    }
     private void SetUpVisual()
     {
         if (itemData == null)
@@ -47,6 +53,7 @@ public class ItemObject : MonoBehaviour
             return;
         }
 
+        //fx.CreatePopUpText(gameObject.name);
         AudioManager.instance.PlaySfx(18,transform);
         Inventory.Instance.AddItem(itemData);
         Destroy(gameObject);
