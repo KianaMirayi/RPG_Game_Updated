@@ -83,13 +83,13 @@ public class EntityFX : MonoBehaviour
     {
         if (_transParent)
         {
-            healthBar.SetActive(false);
+            //healthBar.SetActive(false);
             sr.color = new Color(1, 1, 1, sr.color.a - Time.deltaTime * 1.5f);
             /*cd.enabled = false;*/  //冻结碰撞器使敌人检测不到
         }
         else
         {
-            healthBar.SetActive(true);
+            //healthBar.SetActive(true);
             sr.color = Color.white;
             //cd.enabled = true;
         }
