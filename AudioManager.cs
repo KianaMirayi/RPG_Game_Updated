@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
         {
             if (!Bgm[BgmIndex].isPlaying) //如果非指定的Bgm正在播放
             {
-                PlayBGM(BgmIndex); //指定音乐并播放
+                RandomPlay(); //指定音乐并播放
             }
         }
     }
@@ -108,6 +108,7 @@ public class AudioManager : MonoBehaviour
 
         StopAllBGM();
 
+        Bgm[BgmIndex].loop = true;
         Bgm[BgmIndex].Play();
     }
 

@@ -19,8 +19,10 @@ public class Entity : MonoBehaviour
 
     [Header("KnockBack info")]
     [SerializeField] protected Vector2 KnockBackPower;  //用于表示被击退时的位置向量
+    [SerializeField] protected Vector2 KnockBackOffset;
     [SerializeField] protected float KnockBcakDuration;  //用于表示在被击退状态下的时间
     public bool IsKnocked;  // 用于判断是否被击退
+
 
 
 
@@ -180,7 +182,9 @@ public class Entity : MonoBehaviour
     { 
         IsKnocked = true;
 
-        rb.velocity = new Vector2(KnockBackPower.x * KnockBackDir, KnockBackPower.y);
+        float xOffset = Random.Range(KnockBackOffset.x, KnockBackOffset.y);
+
+        rb.velocity = new Vector2((KnockBackPower.x + xOffset) * KnockBackDir, KnockBackPower.y);
 
         yield return new WaitForSeconds(KnockBcakDuration);
 
